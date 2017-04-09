@@ -9,10 +9,10 @@ The plugin use Window.postMessage() method (https://developer.mozilla.org/en-US/
 in javascript use:<br />
  `var iWindow=iframe.contentWindow`
  
-in angular 2 use: <br />
+in typescript use: <br />
  `var iWindow = (<HTMLIFrameElement>iframe).contentWindow;`
     
-iWindow.postMessage({}, '*');
+`iWindow.postMessage({}, '*');`
 
 ## Events
 ## setVisualization 
@@ -25,8 +25,5 @@ when you send partial visState set isFullState property to false;
 
 [Add visualization](https://github.com/Webiks/kibana-API/wiki/Add-Visualization)    
 
-Change an existing visualization.
-Example(link to example)    
+[Replace visualization](https://github.com/Webiks/kibana-API/wiki/Replace-Visualization)    
 
-Replace an existing visualization by another specific or random visualization. Example(link to example)   Demo (link to example)   
-Read more(link to function page) 
