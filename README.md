@@ -1,8 +1,8 @@
 # kibana-API
-Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and changing the visualizations dynamically.
+Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and change the visualizations dynamically.
 
 ## postMessage
-The plugin use Window.postMessage() method (https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), to connect between the applicaion and between the kibana iframe
+The plugin uses Window.postMessage() method (https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), to connect between the applicaion and the kibana iframe
 
 `var iframe = document.getElementById('Iframe');`
 
@@ -18,10 +18,9 @@ in typescript use: <br />
 ## setVisualization 
 (https://github.com/Webiks/kibana-API/wiki)  
 
-In attend to create visualization you need to call the plugin with visualization state, meaning the visualization definition,
-you can send well formed kibana visState we call [fullState](https://github.com/Webiks/kibana-API/wiki/Full-visState) , and you can send [partial visState](https://github.com/Webiks/kibana-API/wiki/Partial-visState) if you don't know how exactly the visState look like.
-when you send well formed visState set isFullState property to true;
-when you send partial visState set isFullState property to false;
+In order to create a visualization you need to call the plugin with the visualization state.
+Kibana-API is able to recieve all the visualization's properties (`isFullState = true`) -  [fullState](https://github.com/Webiks/kibana-API/wiki/Full-visState).
+In case you do not wish to define all the visualization's properties (`isFullState = false`), you can pass some and Kibana-API will automatically fill-in the rest. [partial visState](https://github.com/Webiks/kibana-API/wiki/Partial-visState)
 
 [Add visualization](https://github.com/Webiks/kibana-API/wiki/Add-Visualization)    
 
