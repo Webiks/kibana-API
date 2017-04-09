@@ -4,13 +4,13 @@ Kibana-API is an extension to Kibana (version ) that lets you tap in to the dash
 ## postMessage
 The plugin use Window.postMessage() method (https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), to connect between the applicaion and between the kibana iframe
 
-var iframe = document.getElementById('Iframe');
+`var iframe = document.getElementById('Iframe');`
 
 in javascript use:<br />
- var iWindow=iframe.contentWindow
+ `var iWindow=iframe.contentWindow`
  
 in angular 2 use: <br />
- var iWindow = (<HTMLIFrameElement>iframe).contentWindow;
+ `var iWindow = (<HTMLIFrameElement>iframe).contentWindow;`
     
 iWindow.postMessage({}, '*');
 
