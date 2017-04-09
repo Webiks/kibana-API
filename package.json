@@ -1,0 +1,33 @@
+{
+  "name": "kibana_api",
+  "version": "0.0.0",
+  "description": "This plugin allow you to crete visualization dynamiclly",
+  "main": "index.js",
+  "kibana": {
+    "version": "5.1.2-aa"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "start": "plugin-helpers start",
+    "test": "mocha --compilers js:babel-core/register public/test",
+    "test:server": "plugin-helpers test:server",
+    "test:browser": "plugin-helpers test:browser",
+    "build": "plugin-helpers build",
+    "postinstall": "plugin-helpers postinstall"
+  },
+  "devDependencies": {
+    "@elastic/eslint-config-kibana": "0.0.2",
+    "@elastic/plugin-helpers": "^6.0.0",
+    "babel-eslint": "4.1.8",
+    "babel-preset-es2015": "^6.24.0",
+    "chai": "^3.5.0",
+    "eslint": "1.10.3",
+    "eslint-plugin-mocha": "1.1.0",
+    "sinon": "^2.1.0"
+  },
+  "dependencies": {
+    "path": "^0.12.7",
+    "q": "^1.5.0",
+    "rison": "^0.1.1"
+  }
+}
