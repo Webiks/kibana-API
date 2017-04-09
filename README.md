@@ -19,7 +19,7 @@ iWindow.postMessage({}, '*');
 (https://github.com/Webiks/kibana-API/wiki)  
 
 In attend to create visualization you need to call the plugin with visualization state, meaning the visualization definition,
-you can send well formed kibana visState , and you can send partial visState if you don't know how exactly the visState look like.
+you can send well formed kibana visState we call [fullState](https://github.com/Webiks/kibana-API/wiki/Full-visState) , and you can send [partial visState](https://github.com/Webiks/kibana-API/wiki/Partial-visState) if you don't know how exactly the visState look like.
 when you send well formed visState set isFullState property to true;
 when you send partial visState set isFullState property to false;
 
