@@ -26,3 +26,7 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 [Replace visualization](https://github.com/Webiks/kibana-API/wiki/Replace-Visualization)    
 
+
+
+## install
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/0.1/kibana-api_0-1.zip
