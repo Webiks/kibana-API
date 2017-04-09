@@ -1,5 +1,5 @@
 # kibana-API
-Kibana-API is an extension to Kibana (version ) that lets you tap in to the dashboard management board (link to picture) from your app and changing the visualizations dynamically.
+Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and changing the visualizations dynamically.
 
 ## postMessage
 The plugin use Window.postMessage() method (https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), to connect between the applicaion and between the kibana iframe
