@@ -5,8 +5,7 @@ import path from 'path'
 
 export default function (server) {
 
-    let call = server.plugins.elasticsearch.callWithRequest;
-
+ const { callWithRequest } = server.plugins.elasticsearch.getCluster('data');
 
     server.route({
 
@@ -30,7 +29,7 @@ export default function (server) {
         method: 'POST',
         handler(req, reply) {
 
-            call(req, 'bulk', {body: createBody(req.payload, server.config().get('kibana.index'))}).then(function (response) {
+            callWithRequest(req, 'bulk', {body: createBody(req.payload, server.config().get('kibana.index'))}).then(function (response) {
                 reply(response);
             });
 
