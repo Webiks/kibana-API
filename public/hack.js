@@ -27,7 +27,7 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl) {
      * @param iNewUrl
      */
     function refreshDashboard(iNewVisArr) {
-        let newUrl = KibanaApiService.changeUrl($location.url(), iNewVisArr);
+        let newUrl = KibanaApiService.generateUrl($location.url(), iNewVisArr);
         kbnUrl.change(newUrl);
     }
 

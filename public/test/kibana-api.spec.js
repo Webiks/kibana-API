@@ -9,13 +9,13 @@ import {expect} from 'chai';
 
 describe('KibanaApiService', () => {
     let stubKibanaApiService;
-    let stubCreateVisState;
+    let stubGetKibanaDocumentStructure;
     beforeEach(() => {
 
     });
     afterEach(() => {
         stubKibanaApiService.restore();
-        stubCreateVisState.restore();
+        stubGetKibanaDocumentStructure.restore();
     });
 
     describe('createVisByVisState function', () => {
@@ -25,9 +25,9 @@ describe('KibanaApiService', () => {
         afterEach(() => {
             stubKibanaApiService.restore();
         });
-        it('should call beforeCallElastic', () => {
+        it('should call beforeCallElastic because the function accept vis array', () => {
             stubKibanaApiService = Sinon.stub(KibanaApiService, 'beforeCallElastic');
-             stubCreateVisState = Sinon.stub(KibanaApiService, 'createVisState').returns([""]);
+             stubGetKibanaDocumentStructure = Sinon.stub(KibanaApiService, 'getKibanaDocumentStructure').returns([""]);
 
             let state = {visId: 1, visState: {"title": "vis"}};
             KibanaApiService.createVisByVisState([state]);
@@ -35,19 +35,12 @@ describe('KibanaApiService', () => {
             Sinon.assert.calledOnce(stubKibanaApiService);
 
         });
-        it('should not call callElastic', () => {
+        it('should not call callElastic because the function accept empty vis array', () => {
             stubKibanaApiService = Sinon.stub(KibanaApiService, 'beforeCallElastic');
             KibanaApiService.createVisByVisState([]);
             Sinon.assert.callCount(stubKibanaApiService, 0);
         });
-        it('should call beforeCallElastic', () => {
-            stubKibanaApiService = Sinon.stub(KibanaApiService, 'beforeCallElastic');
-            let state = {visId: 1, visState: {"title": "vis"}};
-            KibanaApiService.createVisByVisState([state]);
-
-            Sinon.assert.calledOnce(stubKibanaApiService);
-
-        });
+        
     });
 
     describe('createVisByPartialParameters function', () => {
@@ -138,29 +131,24 @@ describe('KibanaApiService', () => {
             stubKibanaApiService.restore();
 
         });
-        it('should call getWellFormVisStateStub', () => {
+        it('should call getWellFormVisState', () => {
             let state = {visId: 1, visState: {"title": "vis"}};
             KibanaApiService.createVisByPartialParameters([state]);
 
             Sinon.assert.calledOnce(getWellFormVisStateStub);
 
         });
-        it('should call validateVisInputStub', () => {
+        it('should call validateVisInput because the function accept vis array', () => {
             KibanaApiService.createVisByPartialParameters([""], config);
             Sinon.assert.called(validateVisInputStub);
 
         });
-        it('should not call validateVisInputStub', () => {
+        it('should not call validateVisInput because the function accept empty vis array', () => {
             KibanaApiService.createVisByPartialParameters([], config);
             Sinon.assert.callCount(validateVisInputStub, 0);
 
         });
-        // it('should not call createVisByVisState', () => {
-        //     stubKibanaApiService = Sinon.stub(KibanaApiService, 'createVisByVisState');
-        //     KibanaApiService.createVisByPartialParameters([], config);
-        //     Sinon.assert.callCount(stubKibanaApiService, 0);
-        //
-        // });
+        
 
     });
 
@@ -176,11 +164,11 @@ describe('KibanaApiService', () => {
         it('should return array length equal 1', () => {
             let state = {id: 1, state: {"title": "vis"}};
             res = KibanaApiService["beforeCallElastic"]([state]);
-            expect(res.length).equal(1)
+            expect(res[0].id).equal(1)
         });
     });
 
-    describe('createVisState function', () => {
+    describe('getKibanaDocumentStructure function', () => {
         let res;
         beforeEach(() => {
 
@@ -189,11 +177,11 @@ describe('KibanaApiService', () => {
 
         });
         it('should return object with title field equal "title"', () => {
-            res = KibanaApiService["createVisState"]("title", {}, "myIndex");
+            res = KibanaApiService["getKibanaDocumentStructure"]("title", {}, "myIndex");
             expect(res.title).equal("title")
         });
         it('should return object with title visState equal JSON.stringify({a: "abc"})', () => {
-            res = KibanaApiService["createVisState"]("title", {a: "abc"}, "myIndex");
+            res = KibanaApiService["getKibanaDocumentStructure"]("title", {a: "abc"}, "myIndex");
             expect(res.visState).equal(JSON.stringify({a: "abc"}))
         });
     });
@@ -280,59 +268,22 @@ describe('KibanaApiService', () => {
 
         });
 
-        it('should return object with params["shareYAxis"] equal true', () => {
-            res = KibanaApiService["getWellFormVisState"]({visState: {visType: "pie", "shareYAxis": true}}, config);
-            expect(res.params["shareYAxis"]).equal(true)
-        });
-        it('should return object with params["addTooltip"] equal true', () => {
-            res = KibanaApiService["getWellFormVisState"]({visState: {visType: "pie", "addTooltip": true}}, config);
-            expect(res.params["addTooltip"]).equal(true)
-        });
-        it('should return object with params["addLegend"] equal true', () => {
-            res = KibanaApiService["getWellFormVisState"]({visState: {visType: "pie", "addLegend": true}}, config);
-            expect(res.params["addLegend"]).equal(true)
-        });
-        it('should return object with params["legendPosition"] equal "right"', () => {
-            res = KibanaApiService["getWellFormVisState"]({
-                visState: {
-                    visType: "pie",
-                    "legendPosition": "right"
-                }
-            }, config);
-            expect(res.params["legendPosition"]).equal("right")
-        });
-        it('should return object with params["isDonut"] equal true', () => {
-            res = KibanaApiService["getWellFormVisState"]({visState: {visType: "pie", "isDonut": true}}, config);
-            expect(res.params["isDonut"]).equal(true)
-        });
-        it('should return object with aggs[1].params["field"] equal "myField"', () => {
-            res = KibanaApiService["getWellFormVisState"]({visState: {visType: "pie", "field": "myField"}}, config);
-            expect(res.aggs[1].params["field"]).equal("myField")
-        });
-        it('should return object with aggs[1].params["size"] equal 5', () => {
-            res = KibanaApiService["getWellFormVisState"]({
-                visState: {visType: "pie", "size": 5}
-            }, config);
-            expect(res.aggs[1].params["size"]).equal(5)
-        });
-        it('should return object with aggs[1].params["interval"] equal 5', () => {
-            res = KibanaApiService["getWellFormVisState"]({
-                visState: {visType: "pie", "interval": 5}
-            }, config);
-            expect(res.aggs[1].params["interval"]).equal(5)
-        });
-        it('should return object with aggs[0]["type"] equal "count"', () => {
-            res = KibanaApiService["getWellFormVisState"]({
-                visState: {visType: "pie", "aggMetricType": "count"}
-            }, config);
-            expect(res.aggs[0]["type"]).equal("count")
-        });
-        it('should return object with aggs[1]["type"] equal "terms"', () => {
-            res = KibanaApiService["getWellFormVisState"]({
-                visState: {visType: "pie", "aggBucketType": "terms"}
-            }, config);
-            expect(res.aggs[1]["type"]).equal("terms")
-        });
+        it('should return the right well form vis state', () => {
+			let visState={visType: "pie", "shareYAxis": true,"addTooltip": true,"addLegend": true,"legendPosition": "right",
+			"isDonut": true,"field": "myField","size": 5,"interval": 5,"aggMetricType": "count","aggBucketType": "terms"};
+            res = KibanaApiService["getWellFormVisState"]({visState: visState}, config);
+            expect(res.params["shareYAxis"]).equal(true);
+		    expect(res.params["addTooltip"]).equal(true);
+			expect(res.params["addLegend"]).equal(true);
+		    expect(res.params["legendPosition"]).equal("right");
+		    expect(res.params["isDonut"]).equal(true);
+			expect(res.aggs[1].params["field"]).equal("myField");
+			expect(res.aggs[1].params["size"]).equal(5);
+			expect(res.aggs[1].params["interval"]).equal(5);
+			expect(res.aggs[0]["type"]).equal("count");
+			expect(res.aggs[1]["type"]).equal("terms");
+        });     
+       
     });
 
 

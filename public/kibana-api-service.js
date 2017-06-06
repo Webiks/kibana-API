@@ -4,7 +4,7 @@ import rison from 'rison'
 export class KibanaApiService {
 
     /**
-     * create visualization by minimal parameters, this function if for developer that do not know very well visualization structure
+     * Create visualization by minimal parameters, this function if for developer that do not know very well visualization structure
      * @param iVisArr
      * @param iVisStructure
      * @returns {*}
@@ -41,8 +41,9 @@ export class KibanaApiService {
 
     }
 
+	
     /**
-     * get array of well formed visualization json
+     * Create visualization by well formed visualization json structure
      * @param iVisArr
      * @returns {*}
      */
@@ -55,7 +56,7 @@ export class KibanaApiService {
                 if (vis) {
                     visStateArr.push({
                         id: vis.id,
-                        state: that.createVisState(vis.visState['title'], vis.visState, vis.visIndex)
+                        state: that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex)
                     });
                 }
 
@@ -70,9 +71,9 @@ export class KibanaApiService {
 
 
     }
-
+	
     /**
-     * get well formed visualization json
+     * Return well formed visualization json
      * @param iVis
      * @param iVisStructure
      * @returns {*}
@@ -114,14 +115,15 @@ export class KibanaApiService {
         return visState;
     }
 
+	
     /**
-     *get visualization state
+     *Return kibana document structure
      * @param iTitle
      * @param iVisState
      * @param iIndex
      * @returns {{title: *, visState, uiStateJSON: string, description: string, kibanaSavedObjectMeta: {searchSourceJSON}}}
      */
-    static createVisState(iTitle, iVisState, iIndex) {
+    static getKibanaDocumentStructure(iTitle, iVisState, iIndex) {
         let kibanaSavedObjectMeta = {
             searchSourceJSON: {
                 index: iIndex,
@@ -138,8 +140,9 @@ export class KibanaApiService {
         };
     }
 
+	
     /**
-     * the final step before call elastic
+     * The final step before call elastic, return array of vis object 
      * @param iVisStateArr
      * @returns {Array}
      */
@@ -155,8 +158,9 @@ export class KibanaApiService {
 
     }
 
+	
     /**
-     * valid input
+     * Check if the user input is valid
      * @param iVis
      */
     static validateVisInput(iVis) {
@@ -167,8 +171,15 @@ export class KibanaApiService {
 
 
     }
-
-    static changeUrl(iUrl, iNewVisArr) {
+	 
+	 
+	 /**
+     * Generate new dashboard URL
+     * @param iUrl
+     * @param iNewVisArr
+     * @returns {string}
+     */
+    static generateUrl(iUrl, iNewVisArr) {
         let kibanaAppObject = rison.decode(this.getQueryVariable("_a", iUrl));
         let kibanaGlobalObject = rison.decode(this.getQueryVariable("_g", iUrl));
 
@@ -185,6 +196,11 @@ export class KibanaApiService {
 
     }
 
+	/**
+     * Handle case that has PreviousId attr
+     * @param iNewVis
+     * @param iPanelIndex
+     */
     static handleIfHasPreviousId(iNewVis, iPanels) {
         let preVisIndex = _.findIndex(iPanels, function (o) {
             return o.id == iNewVis.prevoiusVisId;
@@ -198,15 +214,27 @@ export class KibanaApiService {
         }
     }
 
+	/**
+     * Return  object with visualization position,size etc..
+     * @param iNewVis
+     * @param iPanelIndex
+     * @returns {object}
+     */
     static getVisDashboardObject(iNewVis, iPanelIndex) {
         if (iNewVis && iNewVis.visDashboardDefenetion)
             return iNewVis.visDashboardDefenetion
         return {col: 1, id: iNewVis.id, panelIndex: iPanelIndex, row: 1, size_x: 3, size_y: 2, type: "visualization"}
     }
 
-    static getQueryVariable(iVariable, iQuery) {
+	/**
+     * Extractor part of URL from all URL by iVariable 
+     * @param iVariable
+     * @param iUrl
+     * @returns {string}
+     */
+    static getQueryVariable(iVariable, iUrl) {
         let separators = ['\\\?', '&'];
-        let tokens = iQuery.split(new RegExp(separators.join('|'), 'g'));
+        let tokens = iUrl.split(new RegExp(separators.join('|'), 'g'));
         for (let i = 0; i < tokens.length; i++) {
             let pair = tokens[i].split('=');
             if (decodeURIComponent(pair[0]) == iVariable) {

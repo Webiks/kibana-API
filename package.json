@@ -23,6 +23,7 @@
     "chai": "^3.5.0",
     "eslint": "1.10.3",
     "eslint-plugin-mocha": "1.1.0",
+    "mocha": "^3.4.2",
     "sinon": "^2.1.0"
   },
   "dependencies": {
