@@ -33,6 +33,7 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 
 # Install
+cd kibana_home, then type the appropriate command:
 #### Kibana 5.4.1
 ```bash
 ./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.1/kibana_api-5.4.1.zip
