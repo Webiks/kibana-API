@@ -33,9 +33,49 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 
 # Install
-## Kibana 5.4
+#### Kibana 5.4.1
 ```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4/kibana_api_5.4.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.1/kibana_api-5.4.1.zip
+```
+#### Kibana 5.4.0
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.0/kibana_api_5.4.0.zip
+```
+#### Kibana 5.3.2
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.2/kibana_api-5.3.2.zip
+```
+#### Kibana 5.3.1
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.1/kibana_api-5.3.1.zip
+```
+#### Kibana 5.3.0
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.0/kibana_api-5.3.0.zip
+```
+#### Kibana 5.2.2
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.2.2/kibana_api-5.2.2.zip
+```
+#### Kibana 5.1.2
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.2/kibana_api-5.1.2.zip
+```
+#### Kibana 5.1.1
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.1/kibana_api-5.1.1.zip
+```
+#### Kibana 5.0.2
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.2/kibana_api-5.0.2.zip
+```
+#### Kibana 5.0.1
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.1/kibana_api-5.0.1.zip
+```
+#### Kibana 5.0.0
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.0/kibana_api-5.0.0.zip
 ```
 # Development
 
