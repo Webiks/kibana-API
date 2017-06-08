@@ -1,5 +1,5 @@
 # kibana-API
-Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and change the visualizations dynamically.
+Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and change the visualizations dynamically.</br></br> I recommend you read all, step by step, but if you don't have patience got to [How To You Use](https://github.com/Webiks/kibana-API/blob/master/README.md#how-to-use)
 
 
 ## Demo
