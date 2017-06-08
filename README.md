@@ -32,4 +32,21 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 
 
+# Install
+## Kibana 5.4
+```bash
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4/kibana_api_5.4.zip
+```
+# Development
+
+## Build plugin
+* clone git repo in `kibana_home/plugins`
+* `cd kibana_home/plugins/kibana-API`
+* `npm install`
+
+## Run unit test
+`npm test`
+
+```
+
 
