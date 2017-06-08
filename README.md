@@ -78,6 +78,10 @@ cd kibana_home, then type the appropriate command:
 ```bash
 ./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.0/kibana_api-5.0.0.zip
 ```
+
+
+#### when the installation complete, restart kibana.
+
 # Development
 
 ## Build plugin
