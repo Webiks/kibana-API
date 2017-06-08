@@ -86,7 +86,10 @@ cd kibana_home, then type the appropriate command:
 1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
 2) Restart Kibana
 3) Index data to elasticsearch (if you have not done so before)
-4) Navigate to localhost:5601 and:</br>a) Create kibana index-pattern in  (if you have not done so before)</br>b) Create dashboard</br>c) Press on the share button and copy the Embedded iframe URL to your HTML application</br>d) Give ID to the iframe element</br>e) Look At my example :https://github.com/Webiks/kibana-API/wiki/Replace-Visualization or https://github.com/Webiks/kibana-API/wiki/Add-Visualization</br>5)Enjoy    
+4) Navigate to localhost:5601 and:</br>a) Create kibana index-pattern in  (if you have not done so before)</br>b) Create dashboard</br>c) Press on the share button and copy the Embedded iframe URL to your HTML application</br>
+5) Give ID to the iframe element.
+6) Look At my example :https://github.com/Webiks/kibana-API/wiki/Replace-Visualization or https://github.com/Webiks/kibana-API/wiki/Add-Visualization
+7) Enjoy    
 
 
 # Development
