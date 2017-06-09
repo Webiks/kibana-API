@@ -82,7 +82,7 @@ cd kibana_home, then type the appropriate command:
 
 #### when the installation complete, restart kibana.
 
-# How to use
+# How to Use
 1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
 2) Restart Kibana
 3) Index data to elasticsearch (if you have not done so before)
