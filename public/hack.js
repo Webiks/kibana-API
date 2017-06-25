@@ -1,7 +1,7 @@
 import uiModules from 'ui/modules';
 import Q from 'q';
 import {KibanaApiService} from "./kibana-api-service";
-uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl) {
+uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAppState) {
     let visStructure;
 
     $http.get('../api/visStructure').then((response) => {
@@ -56,12 +56,17 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl) {
                 let resultPartial = KibanaApiService.createVisByPartialParameters(partialVisArr, visStructure);
 
                 if (resultFull.error || resultPartial.error)
-                    console.log(result.error);
+                    console.log(resultFull.error, resultPartial.error);
                 else {
                     callServer(resultFull.concat(resultPartial)).then(function () {
                         refreshDashboard(e.data.visDefenetion);
                     })
                 }
+                return;
+
+            case "addSearchChip":
+                getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
+                getAppState().save();
                 return;
 
         }

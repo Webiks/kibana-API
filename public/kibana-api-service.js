@@ -41,7 +41,7 @@ export class KibanaApiService {
 
     }
 
-	
+
     /**
      * Create visualization by well formed visualization json structure
      * @param iVisArr
@@ -64,6 +64,9 @@ export class KibanaApiService {
             if (visStateArr.length > 0) {
                 return KibanaApiService.beforeCallElastic(visStateArr);
             }
+            else{
+                return [];
+            }
 
         } catch (e) {
             return {error: e}
@@ -71,7 +74,7 @@ export class KibanaApiService {
 
 
     }
-	
+
     /**
      * Return well formed visualization json
      * @param iVis
@@ -115,7 +118,7 @@ export class KibanaApiService {
         return visState;
     }
 
-	
+
     /**
      *Return kibana document structure
      * @param iTitle
@@ -140,9 +143,9 @@ export class KibanaApiService {
         };
     }
 
-	
+
     /**
-     * The final step before call elastic, return array of vis object 
+     * The final step before call elastic, return array of vis object
      * @param iVisStateArr
      * @returns {Array}
      */
@@ -158,7 +161,7 @@ export class KibanaApiService {
 
     }
 
-	
+
     /**
      * Check if the user input is valid
      * @param iVis
@@ -171,9 +174,9 @@ export class KibanaApiService {
 
 
     }
-	 
-	 
-	 /**
+
+
+    /**
      * Generate new dashboard URL
      * @param iUrl
      * @param iNewVisArr
@@ -196,7 +199,7 @@ export class KibanaApiService {
 
     }
 
-	/**
+    /**
      * Handle case that has PreviousId attr
      * @param iNewVis
      * @param iPanelIndex
@@ -214,7 +217,7 @@ export class KibanaApiService {
         }
     }
 
-	/**
+    /**
      * Return  object with visualization position,size etc..
      * @param iNewVis
      * @param iPanelIndex
@@ -226,8 +229,8 @@ export class KibanaApiService {
         return {col: 1, id: iNewVis.id, panelIndex: iPanelIndex, row: 1, size_x: 3, size_y: 2, type: "visualization"}
     }
 
-	/**
-     * Extractor part of URL from all URL by iVariable 
+    /**
+     * Extractor part of URL from all URL by iVariable
      * @param iVariable
      * @param iUrl
      * @returns {string}
@@ -244,5 +247,45 @@ export class KibanaApiService {
         ;
         return null;
     }
+
+    /**
+     * Handle text filter
+     * @param iText
+     * @param iIndex
+     * @returns {any}
+     */
+    static handleTextFilter(iText, iIndex) {
+        return this.getKibanaFilterStructure(iText,iIndex);
+    }
+
+    /**
+     * Get filter chips structure
+     * @param iText
+     * @param iIndex
+     * @returns {any}
+     */
+    static getKibanaFilterStructure(iText,iIndex) {
+        return {
+            $state: {
+                store: "appState"
+            },
+            meta: {
+                alias: null,
+                disabled: false,
+                index: iIndex,
+                key: 'query',
+                negate: false,
+                value: iText
+            },
+            query: {
+                query_string: {
+                    analyze_wildcard: true,
+                    query: iText
+                }
+            }
+        }
+    }
+
+
 
 }
