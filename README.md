@@ -40,20 +40,48 @@ Add kibana search feature to the embbeded dashboard
 
 # Install
 cd kibana_home, then type the appropriate command:
-#### Kibana 5
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/v0.1.0/kibana_api-0.1.0.zip
-```
+
+Kibana 5.4.3
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.3/kibana_api-0.1.0.zip
+
+Kibana 5.4.2
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.2/kibana_api-0.1.0.zip
+
+Kibana 5.4.1
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.1/kibana_api-0.1.0.zip
+
+Kibana 5.4.0
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.0/kibana_api-0.1.0.zip
+
+Kibana 5.3.2
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.2/kibana_api-0.1.0.zip
+
+Kibana 5.3.1
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.1/kibana_api-0.1.0.zip
+
+Kibana 5.3.0
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.0/kibana_api-0.1.0.zip
+
+Kibana 5.2.2
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.2.2/kibana_api-0.1.0.zip
+
+Kibana 5.1.2
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.2/kibana_api-0.1.0.zip
+
+Kibana 5.1.1
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.1/kibana_api-0.1.0.zip
+
+Kibana 5.0.2
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.2/kibana_api-0.1.0.zip
+
+Kibana 5.0.1
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.1/kibana_api-0.1.0.zip
+
+Kibana 5.0.0
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.0/kibana_api-0.1.0.zip
 
 
-#### when the installation complete:
-1) cd kibana_home/plugins/kibana-API
-
-2) open package.json file
-
-3) go to line 7, and change kibana version to your kibana version
-
-4) restart kibana.
+#### when the installation complete restart kibana.
 
 # How to Use
 1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
