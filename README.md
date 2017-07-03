@@ -46,7 +46,14 @@ cd kibana_home, then type the appropriate command:
 ```
 
 
-#### when the installation complete, restart kibana.
+#### when the installation complete:
+1) cd kibana_home/plugins/kibana-API
+
+2) open package.json file
+
+3) go to line 7, and change kibana version to your kibana version
+
+4) restart kibana.
 
 # How to Use
 1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
