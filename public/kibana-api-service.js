@@ -21,7 +21,7 @@ export class KibanaApiService {
                 wellFormState = that.getWellFormVisState(vis, iVisStructure);
                 let title = vis.title;
                 if (title == undefined)
-                    title = vis.visId;
+                    title = vis.id;
 
                 wellFormState.title = title;
 
@@ -64,7 +64,7 @@ export class KibanaApiService {
             if (visStateArr.length > 0) {
                 return KibanaApiService.beforeCallElastic(visStateArr);
             }
-            else{
+            else {
                 return [];
             }
 
@@ -93,6 +93,9 @@ export class KibanaApiService {
 
         _.forEach(iVis.visState, function (value, inputState) {
             switch (inputState) {
+                case "title":
+                    visState.title = inputState
+                    break;
                 case 'shareYAxis':
                 case 'addTooltip':
                 case 'addLegend':
@@ -255,7 +258,7 @@ export class KibanaApiService {
      * @returns {any}
      */
     static handleTextFilter(iText, iIndex) {
-        return this.getKibanaFilterStructure(iText,iIndex);
+        return this.getKibanaFilterStructure(iText, iIndex);
     }
 
     /**
@@ -264,7 +267,7 @@ export class KibanaApiService {
      * @param iIndex
      * @returns {any}
      */
-    static getKibanaFilterStructure(iText,iIndex) {
+    static getKibanaFilterStructure(iText, iIndex) {
         return {
             $state: {
                 store: "appState"
@@ -285,7 +288,6 @@ export class KibanaApiService {
             }
         }
     }
-
 
 
 }
