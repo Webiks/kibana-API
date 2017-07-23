@@ -1,10 +1,10 @@
 {
   "name": "kibana_api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "This plugin allow you to crete visualization dynamiclly",
   "main": "index.js",
   "kibana": {
-    "version": "5.1.2-aa"
+    "version": "5.4.1"
   },
   "scripts": {
     "lint": "eslint",
@@ -27,6 +27,7 @@
     "sinon": "^2.1.0"
   },
   "dependencies": {
+    "jsonfile": "^3.0.1",
     "path": "^0.12.7",
     "q": "^1.5.0",
     "rison": "^0.1.1"

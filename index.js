@@ -10,7 +10,8 @@ export default function (kibana) {
             app: {
                 title: 'Kibana Api',
                 description: 'This plugin allow you to crete visualization dynamiclly',
-                main: 'plugins/kibana_api/app'
+                main: 'plugins/kibana_api/app',
+                icon: 'plugins/kibana_api/icon.svg'
             },
 
 
