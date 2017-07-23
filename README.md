@@ -1,5 +1,5 @@
 # kibana-API
-Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and change the visualizations dynamically.</br></br> I recommend you read all, step by step, but if you don't have patience got to [How To You Use](https://github.com/Webiks/kibana-API/blob/master/README.md#how-to-use)
+Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and change the visualizations dynamically.</br></br> I recommend you read all, step by step, but if you don't have patience got to [How To Use](https://github.com/Webiks/kibana-API/blob/master/README.md#how-to-use)
 
 
 ## Demo
@@ -30,57 +30,81 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 [Replace visualization](https://github.com/Webiks/kibana-API/wiki/Replace-Visualization)    
 
+## addSearchChip 
+
+Add kibana search feature to the embbeded dashboard
+
+[Text filter](https://github.com/Webiks/kibana-API/wiki/Search-Text)    
+
 
 
 # Install
 cd kibana_home, then type the appropriate command:
-#### Kibana 5.4.1
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.1/kibana_api-5.4.1.zip
+
+Kibana 5.4.3
+
 ```
-#### Kibana 5.4.0
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.0/kibana_api_5.4.0.zip
-```
-#### Kibana 5.3.2
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.2/kibana_api-5.3.2.zip
-```
-#### Kibana 5.3.1
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.1/kibana_api-5.3.1.zip
-```
-#### Kibana 5.3.0
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.0/kibana_api-5.3.0.zip
-```
-#### Kibana 5.2.2
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.2.2/kibana_api-5.2.2.zip
-```
-#### Kibana 5.1.2
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.2/kibana_api-5.1.2.zip
-```
-#### Kibana 5.1.1
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.1/kibana_api-5.1.1.zip
-```
-#### Kibana 5.0.2
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.2/kibana_api-5.0.2.zip
-```
-#### Kibana 5.0.1
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.1/kibana_api-5.0.1.zip
-```
-#### Kibana 5.0.0
-```bash
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.0/kibana_api-5.0.0.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.3/kibana_api-0.1.0.zip
 ```
 
+Kibana 5.4.2
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.2/kibana_api-0.1.0.zip
+```
+Kibana 5.4.1
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.1/kibana_api-0.1.0.zip
+```
+Kibana 5.4.0
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.0/kibana_api-0.1.0.zip
+```
+Kibana 5.3.2
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.2/kibana_api-0.1.0.zip
+```
 
-#### when the installation complete, restart kibana.
+Kibana 5.3.1
+
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.1/kibana_api-0.1.0.zip
+```
+Kibana 5.3.0
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.0/kibana_api-0.1.0.zip
+```
+
+Kibana 5.2.2
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.2.2/kibana_api-0.1.0.zip
+```
+
+Kibana 5.1.2
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.2/kibana_api-0.1.0.zip
+```
+
+Kibana 5.1.1
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.1.1/kibana_api-0.1.0.zip
+```
+
+Kibana 5.0.2
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.2/kibana_api-0.1.0.zip
+```
+
+Kibana 5.0.1
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.1/kibana_api-0.1.0.zip
+```
+
+Kibana 5.0.0
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.0.0/kibana_api-0.1.0.zip
+```
+
+#### when the installation complete restart kibana.
 
 # How to Use
 1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
