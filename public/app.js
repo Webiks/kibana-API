@@ -21,7 +21,7 @@ uiModules
     .get('app/kibana_api', [])
     .controller('kibanaApiHelloWorld', function ($scope, $route, $interval, $http) {
 
-        $scope.title = 'Kibana Api';
+        $scope.title = 'Kibana API';
         $scope.finishLoad = false;
         $scope.description = 'This plugin allow you to crete visualization dynamiclly';
         $scope.icon = "";

@@ -1,0 +1,54 @@
+[
+	{		
+		"id": "vis1",
+		"isFullState":true,
+		"visIndex":"logstash-*",
+		"visState":{
+			"title": "clientip",
+			"type": "pie",
+			"params": {
+				"shareYAxis": true,
+				"addTooltip": true,
+				"addLegend": true,
+				"legendPosition": "right",
+				"isDonut": false
+			},
+			"aggs": [
+				{
+					"id": "1",
+					"enabled": true,
+					"type": "count",
+					"schema": "metric",
+					"params": {}
+				},
+				{
+					"id": "2",
+					"enabled": true,
+					"type": "terms",
+					"schema": "segment",
+					"params": {
+						"field": "clientip",
+						"size": 5,
+						"order": "desc",
+						"orderBy": "1"
+					}
+				}
+			],
+			"listeners": {}
+		}
+		
+	},
+	{		
+		"id": "vis2",
+		"isFullState":false,
+		"visIndex":"logstash-*",		
+		"visState":{"visType": "pie", "field": "bytes"}		
+	},
+	{
+		"id": "vis3",
+		"isFullState":false,
+		"visIndex":"logstash-*"	,	
+		"visState":{"visType": "pie", "field": "bytes","title":"vis2","size":20,"addTooltip":true,"addLegend":false,"aggBucketType":"range","aggMetricType":"count"}
+		
+	}
+]
