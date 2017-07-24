@@ -20,7 +20,6 @@ in typescript use: <br />
 
 ## Events
 ## setVisualization 
-(https://github.com/Webiks/kibana-API/wiki)  
 
 In order to create a visualization you need to call the plugin with the visualization state.
 Kibana-API is able to recieve all the visualization's properties (`isFullState = true`) -  [fullState](https://github.com/Webiks/kibana-API/wiki/Full-visState).
@@ -41,8 +40,12 @@ Add kibana search feature to the embbeded dashboard
 # Install
 cd kibana_home, then type the appropriate command:
 
-Kibana 5.4.3
+Kibana 5.5.0
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.5.0/kibana_api-0.1.0.zip
+```
 
+Kibana 5.4.3
 ```
 ./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.4.3/kibana_api-0.1.0.zip
 ```
