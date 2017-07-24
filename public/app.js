@@ -1,6 +1,6 @@
-// import moment from 'moment';
-// import chrome from 'ui/chrome';
-import uiModules from 'ui/modules';
+//import {uiModules} from 'ui/modules';
+const uiModules = require('ui/modules');
+
 import uiRoutes from 'ui/routes';
 import  _ from "lodash";
 
@@ -25,10 +25,7 @@ uiModules
         $scope.finishLoad = false;
         $scope.description = 'This plugin allow you to crete visualization dynamiclly';
         $scope.icon = "";
-        // const unsubscribe = $interval(function () {
-        //     $scope.currentTime = currentTime.add(1, 'second').format('HH:mm:ss');
-        // }, 1000);
-        //$scope.$watch('$destroy', unsubscribe);
+
         let visStructure;
 
         $http.get('../api/visStructure').then((response) => {

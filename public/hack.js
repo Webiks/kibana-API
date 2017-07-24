@@ -1,4 +1,6 @@
-import uiModules from 'ui/modules';
+//import {uiModules} from 'ui/modules';
+const uiModules = require('ui/modules');
+
 import Q from 'q';
 import {KibanaApiService} from "./kibana-api-service";
 uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAppState) {
