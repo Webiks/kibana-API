@@ -20,7 +20,6 @@ in typescript use: <br />
 
 ## Events
 ## setVisualization 
-(https://github.com/Webiks/kibana-API/wiki)  
 
 In order to create a visualization you need to call the plugin with the visualization state.
 Kibana-API is able to recieve all the visualization's properties (`isFullState = true`) -  [fullState](https://github.com/Webiks/kibana-API/wiki/Full-visState).
