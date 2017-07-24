@@ -35,6 +35,15 @@ Add kibana search feature to the embbeded dashboard
 
 [Text filter](https://github.com/Webiks/kibana-API/wiki/Search-Text)    
 
+## Create Visualization's By an External Configuration File
+
+Create visualizations by uploading a json file with an array of the visualization's properties,
+
+[Json File Example](https://github.com/Webiks/kibana-API/blob/master/example_vis_defenetion.json)    
+
+![alt text](https://github.com/Webiks/kibana-API/blob/master/demo_file.gif)
+
+
 
 
 # Install
