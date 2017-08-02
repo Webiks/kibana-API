@@ -5,7 +5,18 @@ import path from 'path'
 
 export default function (server) {
 
- const { callWithRequest } = server.plugins.elasticsearch.getCluster('data');
+    const elastic=server.plugins.elasticsearch;
+    let callWithRequest;
+
+    if(elastic["callWithRequest"]){
+        callWithRequest = elastic.callWithRequest;
+    }
+    else{
+        callWithRequest = elastic.getCluster('data').callWithRequest;
+    }
+
+
+
 
     server.route({
 
