@@ -6,6 +6,8 @@
   "kibana": {
     "version": "5.4.3"
   },
+  "author": "Ytzhak Lax <ytzhak@webiks.com>",
+  "contributors": []
   "scripts": {
     "lint": "eslint",
     "start": "plugin-helpers start",
