@@ -4,10 +4,10 @@
   "description": "This plugin allow you to crete visualization dynamiclly",
   "main": "index.js",
   "kibana": {
-    "version": "5.4.3"
+    "version": "5.5.0"
   },
   "author": "Ytzhak Lax <ytzhak@webiks.com>",
-  "contributors": []
+  "contributors": [],
   "scripts": {
     "lint": "eslint",
     "start": "plugin-helpers start",
