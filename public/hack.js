@@ -53,6 +53,17 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
     }
 
 
+    function isIndexPatternExist(iIndex) {
+        let deferred = Q.defer();
+
+        callServer("get", '../api/isIndexPatternExist/'+  iIndex).then(function (response) {
+            deferred.resolve(response);
+        })
+        return deferred.promise;
+
+    }
+
+
 //catch post message event
 
     let eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -94,6 +105,12 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
                 createIndexPattern(e.data.index, e.data.timeField);
 
                 return;
+
+            case "isIndexPatternExist":
+                isIndexPatternExist(e.data.indexPattern).then(function (res) {
+                    console.log(res.data)
+                });
+                return
 
         }
 

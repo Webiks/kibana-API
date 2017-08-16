@@ -32,6 +32,30 @@ export default function (server) {
 
         }
     });
+
+
+    server.route({
+
+        path: '/api/isIndexPatternExist/{id}',
+        method: 'GET',
+        handler(req, reply) {
+
+            callWithRequest(req, 'get', {
+                index: server.config().get('kibana.index'),
+                type: 'index-pattern',
+                id: req.params.id
+            }).then(function (response) {
+                    console.log("dssss:", response)
+                    reply(response.found);
+                },
+                function (error) {
+                    reply(false);
+                }
+            );
+
+        }
+    });
+
     server.route({
 
         path: '/api/createVis/createVisByVisState',
@@ -81,6 +105,6 @@ function getCreateRequest(iIndex, iType, iBody) {
         index: iIndex,
         type: iType,
         body: iBody,
-        id:iBody.title
+        id: iBody.title
     };
 }
