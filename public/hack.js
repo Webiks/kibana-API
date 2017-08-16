@@ -3,10 +3,11 @@ const uiModules = require('ui/modules');
 
 import Q from 'q';
 import {KibanaApiService} from "./kibana-api-service";
+
 uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAppState) {
     let visStructure;
 
-    $http.get('../api/visStructure').then((response) => {
+    callServer('get', '../api/visStructure').then(function (response) {
         visStructure = response.data;
     });
 
@@ -15,11 +16,11 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
      * @param visArr
      * @returns {Promise<T>|*|promise}
      */
-    function callServer(visArr) {
+    function callServer(method, path, body) {
         let deferred = Q.defer();
 
-        $http.post('../api/createVis/createVisByVisState', visArr).then((response) => {
-            deferred.resolve()
+        $http[method](path, body).then((response) => {
+            deferred.resolve(response)
         });
         return deferred.promise;
     }
@@ -31,6 +32,24 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
     function refreshDashboard(iNewVisArr) {
         let newUrl = KibanaApiService.generateUrl($location.url(), iNewVisArr);
         kbnUrl.change(newUrl);
+    }
+
+    /**
+     * Create index-pattern
+     * @param iIndex
+     * @param iTimeField
+     */
+    function createIndexPattern(iIndex, iTimeField) {
+        let request = {
+            "title": iIndex,
+            "notExpandable": true
+        }
+        if (iTimeField) {
+            request["timeFieldName"] = iTimeField
+        }
+        callServer("post", '../api/createIndexPattern', request).then(function (response) {
+
+        })
     }
 
 
@@ -60,7 +79,7 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
                 if (resultFull.error || resultPartial.error)
                     console.log(resultFull.error, resultPartial.error);
                 else {
-                    callServer(resultFull.concat(resultPartial)).then(function () {
+                    callServer("post", '../api/createVis/createVisByVisState', resultFull.concat(resultPartial)).then(function () {
                         refreshDashboard(e.data.visDefenetion);
                     })
                 }
@@ -69,6 +88,11 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
             case "addSearchChip":
                 getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
                 getAppState().save();
+                return;
+
+            case "createIndexPattern":
+                createIndexPattern(e.data.index, e.data.timeField);
+
                 return;
 
         }

@@ -5,17 +5,15 @@ import path from 'path'
 
 export default function (server) {
 
-    const elastic=server.plugins.elasticsearch;
+    const elastic = server.plugins.elasticsearch;
     let callWithRequest;
 
-    if(elastic["callWithRequest"]){
+    if (elastic["callWithRequest"]) {
         callWithRequest = elastic.callWithRequest;
     }
-    else{
+    else {
         callWithRequest = elastic.getCluster('data').callWithRequest;
     }
-
-
 
 
     server.route({
@@ -40,7 +38,19 @@ export default function (server) {
         method: 'POST',
         handler(req, reply) {
 
-            callWithRequest(req, 'bulk', {body: createBody(req.payload, server.config().get('kibana.index'))}).then(function (response) {
+            callWithRequest(req, 'bulk', {body: getBulkBody(req.payload, server.config().get('kibana.index'))}).then(function (response) {
+                reply(response);
+            });
+
+        }
+    });
+
+    server.route({
+
+        path: '/api/createIndexPattern',
+        method: 'POST',
+        handler(req, reply) {
+            callWithRequest(req, 'create', getCreateRequest('.kibana', 'index-pattern', req.payload)).then(function (response) {
                 reply(response);
             });
 
@@ -48,7 +58,8 @@ export default function (server) {
     });
 
 };
-function createBody(visArr, iKibanaIndex) {
+
+function getBulkBody(visArr, iKibanaIndex) {
     let bodyArr = [];
     _.forEach(visArr, function (vis) {
         bodyArr.push({
@@ -62,4 +73,14 @@ function createBody(visArr, iKibanaIndex) {
 
     })
     return bodyArr;
+}
+
+function getCreateRequest(iIndex, iType, iBody) {
+
+    return {
+        index: iIndex,
+        type: iType,
+        body: iBody,
+        id:iBody.title
+    };
 }
