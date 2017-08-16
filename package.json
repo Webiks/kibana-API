@@ -4,7 +4,7 @@
   "description": "This plugin allow you to crete visualization dynamiclly",
   "main": "index.js",
   "kibana": {
-    "version": "5.5.0"
+    "version": "5.5.1"
   },
   "author": "Ytzhak Lax <ytzhak@webiks.com>",
   "contributors": [],
