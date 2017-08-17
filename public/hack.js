@@ -40,6 +40,8 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
      * @param iTimeField
      */
     function createIndexPattern(iIndex, iTimeField) {
+        let deferred = Q.defer();
+
         let request = {
             "title": iIndex,
             "notExpandable": true
@@ -48,18 +50,26 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
             request["timeFieldName"] = iTimeField
         }
         callServer("post", '../api/createIndexPattern', request).then(function (response) {
+            deferred.resolve(response);
 
-        })
+        });
+        return deferred.promise;
+
     }
 
 
     function isIndexPatternExist(iIndex) {
         let deferred = Q.defer();
 
-        callServer("get", '../api/isIndexPatternExist/'+  iIndex).then(function (response) {
+        callServer("get", '../api/isIndexPatternExist/' + iIndex).then(function (response) {
             deferred.resolve(response);
         })
         return deferred.promise;
+
+    }
+
+    function postResToApp(funcName, msg) {
+        parent.postMessage(funcName + "##" + JSON.stringify(msg), "*");
 
     }
 
@@ -102,13 +112,15 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
                 return;
 
             case "createIndexPattern":
-                createIndexPattern(e.data.index, e.data.timeField);
+                createIndexPattern(e.data.index, e.data.timeField).then(function (res) {
+                    postResToApp("createIndexPattern",res);
+                });
 
                 return;
 
             case "isIndexPatternExist":
                 isIndexPatternExist(e.data.indexPattern).then(function (res) {
-                    console.log(res.data)
+                    postResToApp("isIndexPatternExist",res.data);
                 });
                 return
 
@@ -119,8 +131,6 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
 // Listen to message
     eventer(messageEvent, eventMessageHandler, false);
-
-
 })
 ;
 

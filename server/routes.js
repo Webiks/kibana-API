@@ -45,7 +45,6 @@ export default function (server) {
                 type: 'index-pattern',
                 id: req.params.id
             }).then(function (response) {
-                    console.log("dssss:", response)
                     reply(response.found);
                 },
                 function (error) {
@@ -63,8 +62,12 @@ export default function (server) {
         handler(req, reply) {
 
             callWithRequest(req, 'bulk', {body: getBulkBody(req.payload, server.config().get('kibana.index'))}).then(function (response) {
-                reply(response);
-            });
+                    reply(response);
+                },
+                function (error) {
+                    reply(error);
+                }
+            );
 
         }
     });
@@ -74,9 +77,13 @@ export default function (server) {
         path: '/api/createIndexPattern',
         method: 'POST',
         handler(req, reply) {
-            callWithRequest(req, 'create', getCreateRequest('.kibana', 'index-pattern', req.payload)).then(function (response) {
-                reply(response);
-            });
+            callWithRequest(req, 'create', getCreateRequest(server.config().get('kibana.index'), 'index-pattern', req.payload))
+                .then(function (response) {
+                    reply(response);
+                })
+                .catch(err => {
+                    reply({create:false,reason:err.reason});
+                });
 
         }
     });
