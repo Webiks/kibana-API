@@ -77,12 +77,28 @@ export default function (server) {
         path: '/api/createIndexPattern',
         method: 'POST',
         handler(req, reply) {
-            callWithRequest(req, 'create', getCreateRequest(server.config().get('kibana.index'), 'index-pattern', req.payload))
+            callWithRequest(req, 'create', getCreateRequest(server.config().get('kibana.index'), 'index-pattern', req.payload, req.payload.title))
                 .then(function (response) {
                     reply(response);
                 })
                 .catch(err => {
-                    reply({create:false,reason:err.reason});
+                    reply({create: false, reason: err.reason});
+                });
+
+        }
+    });
+
+    server.route({
+
+        path: '/api/setIndexPattern',
+        method: 'POST',
+        handler(req, reply) {
+            callWithRequest(req, 'index', getCreateRequest(server.config().get('kibana.index'), 'config', req.payload.body, req.payload.id))
+                .then(function (response) {
+                    reply(response);
+                })
+                .catch(err => {
+                    reply({create: false, reason: err.reason});
                 });
 
         }
@@ -106,12 +122,15 @@ function getBulkBody(visArr, iKibanaIndex) {
     return bodyArr;
 }
 
-function getCreateRequest(iIndex, iType, iBody) {
-
-    return {
+function getCreateRequest(iIndex, iType, iBody, iID) {
+    let oRequest = {
         index: iIndex,
         type: iType,
-        body: iBody,
-        id: iBody.title
+        body: iBody
     };
+    if (iID) {
+        oRequest["id"] = iID
+    }
+
+    return oRequest
 }

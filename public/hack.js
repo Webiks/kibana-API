@@ -3,7 +3,9 @@ const uiModules = require('ui/modules');
 
 import Q from 'q';
 import {KibanaApiService} from "./kibana-api-service";
+import packageJson from '../package.json';
 
+let kibanaVersion = packageJson.kibana.version;
 uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAppState) {
     let visStructure;
 
@@ -50,6 +52,20 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
             request["timeFieldName"] = iTimeField
         }
         callServer("post", '../api/createIndexPattern', request).then(function (response) {
+            deferred.resolve(response);
+
+        });
+        return deferred.promise;
+
+    }
+
+    function setDefaultIndexPattern(iIndex) {
+        let deferred = Q.defer();
+
+        callServer("post", '../api/setIndexPattern', {
+            body: {"defaultIndex": iIndex},
+            id: kibanaVersion
+        }).then(function (response) {
             deferred.resolve(response);
 
         });
@@ -113,14 +129,21 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
             case "createIndexPattern":
                 createIndexPattern(e.data.index, e.data.timeField).then(function (res) {
-                    postResToApp("createIndexPattern",res);
+                    postResToApp("createIndexPattern", res);
+                });
+
+                return;
+
+            case "setDefaultIndexPattern":
+                setDefaultIndexPattern(e.data.indexPattern).then(function (res) {
+                    postResToApp("setDefaultIndexPattern", res);
                 });
 
                 return;
 
             case "isIndexPatternExist":
                 isIndexPatternExist(e.data.indexPattern).then(function (res) {
-                    postResToApp("isIndexPatternExist",res.data);
+                    postResToApp("isIndexPatternExist", res.data);
                 });
                 return
 
