@@ -87,9 +87,7 @@ Kibana 5.3.1
 ./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.1/kibana_api-0.1.0.zip
 ```
 Kibana 5.3.0
-```
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.3.0/kibana_api-0.1.0.zip
-```
+Issue  #16
 
 Kibana 5.2.2
 ```
