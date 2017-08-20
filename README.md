@@ -130,7 +130,7 @@ Kibana 5.0.0
 1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
 2) Restart Kibana
 3) Index data to elasticsearch (if you have not done so before)
-4) Navigate to localhost:5601 and:</br>a) Create kibana index-pattern (you can also do that with [Create index pattern](https://github.com/Webiks/kibana-API/wiki/Index-Pattern-functions)</br>b) Create dashboard</br>c) Press on the share button and copy the Embedded iframe URL to your HTML application  (don't use the save dashboard link)</br>
+4) Navigate to localhost:5601 and:</br>a) Create kibana index-pattern (you can also do that with [create index pattern function](https://github.com/Webiks/kibana-API/wiki/Index-Pattern-functions)</br>b) Create dashboard</br>c) Press on the share button and copy the Embedded iframe URL to your HTML application  (don't use the save dashboard link)</br>
 5) Give ID to the iframe element.
 6) Look At my example :https://github.com/Webiks/kibana-API/wiki/Replace-Visualization or https://github.com/Webiks/kibana-API/wiki/Add-Visualization
 7) Enjoy    
