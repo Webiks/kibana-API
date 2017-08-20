@@ -35,6 +35,10 @@ Add kibana search feature to the embbeded dashboard
 
 [Text filter](https://github.com/Webiks/kibana-API/wiki/Search-Text)    
 
+## Index Pattern Functions
+
+[Index pattern functions](https://github.com/Webiks/kibana-API/wiki/Index-Pattern-functions)
+
 ## Create Visualization's By an External Configuration File
 
 Create visualizations by uploading a json file with an array of the visualization's properties,
