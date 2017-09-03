@@ -148,6 +148,9 @@ Kibana 5.0.0
 ## Run unit test
 `npm test`
 
-```
 
 
+## Help me to improve!:
+
+If there's any problem or doubt, please, open a Github Issue (Pull Request) or contact me via email:
+ytzhak@webiks.com. 
