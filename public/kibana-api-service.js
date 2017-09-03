@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import rison from 'rison'
-
+import packageJson from '../package.json';
+const kibanaVersion = packageJson.kibana.version;
 export class KibanaApiService {
 
     /**
@@ -188,7 +189,7 @@ export class KibanaApiService {
     static generateUrl(iUrl, iNewVisArr) {
         let kibanaAppObject = rison.decode(this.getQueryVariable("_a", iUrl));
         let kibanaGlobalObject = rison.decode(this.getQueryVariable("_g", iUrl));
-
+        let header="";
         _.forEach(iNewVisArr, function (newVis) {
             if (newVis.prevoiusVisId) {
                 KibanaApiService.handleIfHasPreviousId(newVis, kibanaAppObject.panels,);
@@ -197,8 +198,11 @@ export class KibanaApiService {
                 kibanaAppObject.panels.push(KibanaApiService.getVisDashboardObject(newVis, kibanaAppObject.panels.length + 1));
             }
         })
+        if(kibanaVersion==="5.3.0"){
+            header="/create";
+        }
 
-        return "/dashboard?embed=true" + "&_g=" + rison.encode((kibanaGlobalObject)) + "&_a=" + rison.encode((kibanaAppObject));
+        return "/dashboard"+header+"?embed=true" + "&_g=" + rison.encode((kibanaGlobalObject)) + "&_a=" + rison.encode((kibanaAppObject));
 
     }
 
