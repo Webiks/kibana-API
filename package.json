@@ -4,8 +4,13 @@
   "description": "This plugin allow you to crete visualization dynamiclly",
   "main": "index.js",
   "kibana": {
-    "version": "5.5.1"
+    "version": "5.5.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webiks/kibana-API.git"
+  },
+  "license": "Apache-2.0",
   "author": "Ytzhak Lax <ytzhak@webiks.com>",
   "contributors": [],
   "scripts": {
