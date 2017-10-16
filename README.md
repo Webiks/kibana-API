@@ -53,6 +53,11 @@ Create visualizations by uploading a json file with an array of the visualizatio
 # Install
 cd kibana_home, then type the appropriate command:
 
+Kibana 5.6.1
+```
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.6.1/kibana_api-0.1.0.zip
+```
+
 Kibana 5.6.0
 ```
 ./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/5.6.0/kibana_api-0.1.0.zip
