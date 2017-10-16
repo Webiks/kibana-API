@@ -127,6 +127,12 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
                 getAppState().save();
                 return;
 
+            case "flushSearchChip":
+                for(let i = 0; i < getAppState().filters.length; i++) {
+                    getAppState().filters.pop();
+                }
+                return;
+
             case "createIndexPattern":
                 createIndexPattern(e.data.index, e.data.timeField).then(function (res) {
                     postResToApp("createIndexPattern", res);
