@@ -36,6 +36,29 @@ export default function (server) {
 
     server.route({
 
+        path: '/api/getIndexPatternId',
+        method: 'POST',
+        handler(req, reply) {
+            callWithRequest(req, 'msearch', {
+                body: msearchIndexPatternBody(server.config().get('kibana.index'), 'index-pattern', req.payload)
+            }).then(function (response) {
+                    try {
+                        reply(response.responses);
+                    } catch (e) {
+                        reply(false);
+                    }
+                },
+                function (error) {
+                    console.log(error)
+                    reply(false);
+                }
+            );
+
+        }
+    });
+
+    server.route({
+
         path: '/api/isIndexPatternExist/{id}',
         method: 'GET',
         handler(req, reply) {
@@ -119,6 +142,25 @@ function getBulkBody(visArr, iKibanaIndex) {
         bodyArr.push(vis.body);
 
     })
+    return bodyArr;
+}
+
+function msearchIndexPatternBody(iKibanaIndex, iType, iTitels) {
+    let bodyArr = [];
+    _.forEach(iTitels, function (title) {
+        bodyArr.push({
+                "_index": iKibanaIndex,
+                "_type": iType
+            },
+            {
+                query: {
+                    match: {
+                        title: title
+                    }
+                }
+            }
+        )
+    });
     return bodyArr;
 }
 

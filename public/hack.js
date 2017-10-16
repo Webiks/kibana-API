@@ -73,6 +73,19 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
     }
 
+    /**
+     * Get index pattern ID by title
+     * @param iTitle
+     * @returns {*}
+     */
+    function getIndexPatternId(iTitles) {
+        let deferred = Q.defer();
+        callServer("post", '../api/getIndexPatternId', iTitles).then(function (response) {
+            deferred.resolve(response.data);
+        })
+        return deferred.promise;
+
+    }
 
     function isIndexPatternExist(iIndex) {
         let deferred = Q.defer();
@@ -102,25 +115,36 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
         switch (e.data.actionType) {
             case "setVisualization":
+                let partialVisArr=[],fullVisArr =[],titelsArr = [];
 
-                let partialVisArr = _.filter(e.data.visDefenetion, function (o) {
-                    return !o.isFullState;
+                _.forEach(e.data.visDefenetion, function (visState) {
+                    visState.isFullState ? fullVisArr.push(visState) : partialVisArr.push(visState)
+                    titelsArr.push(visState.visIndex);
                 });
-                let fullVisArr = _.filter(e.data.visDefenetion, function (o) {
-                    return o.isFullState;
-                });
 
-                let resultFull = KibanaApiService.createVisByVisState(fullVisArr);
-                let resultPartial = KibanaApiService.createVisByPartialParameters(partialVisArr, visStructure);
+                getIndexPatternId(titelsArr).then(function (idsArr) {
+                    _.forEach(e.data.visDefenetion, function (visState, i) {
+                        visState.visIndex = idsArr[i].hits.hits[0]._id;
+                    });
 
-                if (resultFull.error || resultPartial.error)
-                    console.log(resultFull.error, resultPartial.error);
-                else {
-                    callServer("post", '../api/createVis/createVisByVisState', resultFull.concat(resultPartial)).then(function () {
-                        refreshDashboard(e.data.visDefenetion);
-                    })
-                }
+
+                    let resultFull = KibanaApiService.createVisByVisState(fullVisArr);
+                    let resultPartial = KibanaApiService.createVisByPartialParameters(partialVisArr, visStructure);
+
+                    let allVisesState = resultFull.concat(resultPartial)
+
+
+                    if (resultFull.error || resultPartial.error)
+                        console.log(resultFull.error, resultPartial.error);
+                    else {
+                        callServer("post", '../api/createVis/createVisByVisState', allVisesState).then(function () {
+                            refreshDashboard(e.data.visDefenetion);
+                        })
+                    }
+
+                })
                 return;
+
 
             case "addSearchChip":
                 getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
