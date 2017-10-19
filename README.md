@@ -29,11 +29,9 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 [Replace visualization](https://github.com/Webiks/kibana-API/wiki/Replace-Visualization)    
 
-## addSearchChip 
+## Filter Functions
 
-Add kibana search feature to the embbeded dashboard
-
-[Text filter](https://github.com/Webiks/kibana-API/wiki/Search-Text)    
+[Filter functions](https://github.com/Webiks/kibana-API/wiki/Filter-functions)
 
 ## Index Pattern Functions
 
