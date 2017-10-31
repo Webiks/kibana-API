@@ -3,7 +3,7 @@ Kibana-API is an extension to Kibana that lets you tap in to the dashboard manag
 
 
 ## Demo
-![alt text](https://github.com/Webiks/kibana-API/blob/master/demo.gif)
+![alt text](https://github.com/Webiks/kibana-API/blob/master/demo2.gif)
 
 ## postMessage
 The plugin uses Window.postMessage() method (https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage), to connect between the applicaion and the kibana iframe
