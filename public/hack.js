@@ -6,9 +6,9 @@ import {KibanaApiService} from "./kibana-api-service";
 import packageJson from '../package.json';
 
 let kibanaVersion = packageJson.kibana.version;
-uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAppState) {
+uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, kbnUrl, getAppState) {
     let visStructure;
-
+    let loaded = false;
     callServer('get', '../api/visStructure').then(function (response) {
         visStructure = response.data;
     });
@@ -115,7 +115,7 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
         switch (e.data.actionType) {
             case "setVisualization":
-                let partialVisArr=[],fullVisArr =[],titelsArr = [];
+                let partialVisArr = [], fullVisArr = [], titelsArr = [];
 
                 _.forEach(e.data.visDefenetion, function (visState) {
                     visState.isFullState ? fullVisArr.push(visState) : partialVisArr.push(visState)
@@ -144,7 +144,6 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
                 })
                 return;
-
 
             case "addSearchChip":
                 getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
@@ -182,6 +181,18 @@ uiModules.get('app/dashboard', []).run(function ($http, $location, kbnUrl, getAp
 
 // Listen to message
     eventer(messageEvent, eventMessageHandler, false);
+    $rootScope.$on('$routeChangeSuccess', () => {
+        if (!loaded) {
+            loaded = true;
+            setTimeout(function () {
+                console.log('$routeChangeSuccess');
+                postResToApp("load", "finish load iframe");
+            }, 1);
+
+        }
+    })
+
+
 })
 ;
 
