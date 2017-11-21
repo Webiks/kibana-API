@@ -63,13 +63,14 @@ export class KibanaApiService {
             let body = {};
             _.forEach(iVisArr, function (vis) {
                 if (vis) {
-                    body = that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex)
+                    body = that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex);
                     visDoc = {
-                        id: "visualization:" + vis.id,
+                        id: vis.id,
                         state: body
                     }
                     if (that.isKibanaSix()) {
-                        visDoc.state = {type: "visualization", visualization: body}
+                        visDoc.state = {type: "visualization", visualization: body};
+                        visDoc.id = "visualization:" + visDoc.id;
                     }
                     visStateArr.push(visDoc);
                 }
