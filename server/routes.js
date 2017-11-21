@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import jsonfile from 'jsonfile';
-
+import packageJson from '../package.json';
 import path from 'path'
+
+const kibanaVersion = packageJson.kibana.version;
+
 
 export default function (server) {
 
@@ -131,11 +134,15 @@ export default function (server) {
 
 function getBulkBody(visArr, iKibanaIndex) {
     let bodyArr = [];
+    let type = 'visualization';
+    if (isKibanaSix()) {
+        type = "doc";
+    }
     _.forEach(visArr, function (vis) {
         bodyArr.push({
             index: {
                 "_index": iKibanaIndex,
-                "_type": 'visualization',
+                "_type": type,
                 "_id": vis.id
             }
         })
@@ -145,20 +152,42 @@ function getBulkBody(visArr, iKibanaIndex) {
     return bodyArr;
 }
 
+function isKibanaSix() {
+    return getKibanVersion() === "6.0.0"
+}
+
+function getKibanVersion() {
+    return kibanaVersion.split('-')[0];
+}
+
 function msearchIndexPatternBody(iKibanaIndex, iType, iTitels) {
     let bodyArr = [];
+    let type = iType;
+    let query = {};
+    if (isKibanaSix()) {
+        type = "doc";
+    }
     _.forEach(iTitels, function (title) {
-        bodyArr.push({
-                "_index": iKibanaIndex,
-                "_type": iType
-            },
-            {
+        query = {
+            query: {
+                match: {
+                    title: title
+                }
+            }
+        };
+        if (isKibanaSix()) {
+            query = {
                 query: {
                     match: {
-                        title: title
+                        "index-pattern.title": title
                     }
                 }
             }
+        }
+        bodyArr.push({
+                "_index": iKibanaIndex,
+                "_type": type
+            }, query
         )
     });
     return bodyArr;
