@@ -48,11 +48,12 @@ export default function (server) {
                     try {
                         reply(response.responses);
                     } catch (e) {
+                        console.log(e)
                         reply(false);
                     }
                 },
-                function (error) {
-                    console.log(error)
+                function (e) {
+                    console.log(e)
                     reply(false);
                 }
             );
@@ -60,26 +61,6 @@ export default function (server) {
         }
     });
 
-    server.route({
-
-        path: '/api/isIndexPatternExist/{id}',
-        method: 'GET',
-        handler(req, reply) {
-
-            callWithRequest(req, 'get', {
-                index: server.config().get('kibana.index'),
-                type: 'index-pattern',
-                id: req.params.id
-            }).then(function (response) {
-                    reply(response.found);
-                },
-                function (error) {
-                    reply(false);
-                }
-            );
-
-        }
-    });
 
     server.route({
 

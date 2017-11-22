@@ -89,10 +89,10 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
 
     function isIndexPatternExist(iIndex) {
         let deferred = Q.defer();
-
-        callServer("get", '../api/isIndexPatternExist/' + iIndex).then(function (response) {
-            deferred.resolve(response);
+        callServer("post", '../api/getIndexPatternId', [iIndex]).then(function (response) {
+            deferred.resolve(response.data[0].hits.total > 0);
         })
+
         return deferred.promise;
 
     }
@@ -170,7 +170,7 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
 
             case "isIndexPatternExist":
                 isIndexPatternExist(e.data.indexPattern).then(function (res) {
-                    postResToApp("isIndexPatternExist", res.data);
+                    postResToApp("isIndexPatternExist", res);
                 });
                 return
 
