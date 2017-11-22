@@ -3,6 +3,7 @@ import jsonfile from 'jsonfile';
 import packageJson from '../package.json';
 import request from 'request'
 import path from 'path'
+import Q from 'q';
 
 const kibanaVersion = packageJson.kibana.version;
 
@@ -43,22 +44,9 @@ export default function (server) {
         path: '/api/getIndexPatternId',
         method: 'POST',
         handler(req, reply) {
-            callWithRequest(req, 'msearch', {
-                body: msearchIndexPatternBody(server.config().get('kibana.index'), 'index-pattern', req.payload)
-            }).then(function (response) {
-                    try {
-                        reply(response.responses);
-                    } catch (e) {
-                        console.log(e)
-                        reply(false);
-                    }
-                },
-                function (e) {
-                    console.log(e)
-                    reply(false);
-                }
-            );
-
+            getIndexPatternId(req).then((indexPattern) => {
+                reply(indexPattern);
+            });
         }
     });
 
@@ -85,29 +73,65 @@ export default function (server) {
         path: '/api/createIndexPattern',
         method: 'POST',
         handler(req, reply) {
-            console.log(req)
-            let options = {
-                headers: {'content-type': 'application/json'},
-                url: req,
-                form: {attributes: {timeFieldName: req.payload.timeFieldName, title: req.payload.title}}
-            };
-            // request.post(options, function (error, response, body) {
-            //         try {
-            //             if (error) {
-            //                 throw new Error(error);
-            //             }
-            //             else {
-            //
-            //                 res.json(JSON.parse(response.body))
-            //             }
-            //         } catch (e) {
-            //             res.json({error: e.message});
-            //
-            //         }
-            //     });
+            getIndexPatternId(req).then((indexPattern) => {
+                if (indexPattern.length == 0) {
+                    let options = {
+                        headers: {'content-type': 'application/json', 'kbn-version': getKibanVersion()},
+                        url: req.headers.referer.split('app')[0] + 'api/saved_objects/index-pattern',
+                        json: {attributes: {timeFieldName: req.payload.timeFieldName, title: req.payload.title}}
+                    };
+                    request.post(options, function (error, response, body) {
+                        try {
+                            if (error) {
+                                console.log(error);
+                                reply(error);
+                            }
+                            else {
+                                reply(body);
+                            }
+                        } catch (e) {
+                            console.log(e);
+                            reply(e);
+
+                        }
+                    });
+                }
+                else {
+                    reply({});
+                }
+            })
 
 
-            // callWithRequest(req, 'create', getCreateRequest(server.config().get('kibana.index'), 'index-pattern', req.payload, req.payload.title))
+        }
+    });
+
+    server.route({
+
+        path: '/api/setIndexPattern',
+        method: 'POST',
+        handler(req, reply) {
+            getIndexPatternId(req).then((indexPattern) => {
+                let urlHeader = req.headers.referer.split('app')[0] + 'api/';
+                console.log(indexPattern[0])
+                let url = urlHeader + 'kibana/settings/defaultIndex';
+                let options = {
+                    headers: {'content-type': 'application/json', 'kbn-version': getKibanVersion()},
+                    url: url,
+                    json: {value: indexPattern[0].id}
+                };
+                request.post(options, function (error, response, body) {
+                    if (error) {
+                        console.log(error);
+                        reply(error);
+                    }
+                    console.log(body);
+
+                    reply(body);
+
+                });
+            });
+
+            // callWithRequest(req, 'index', getCreateRequest(server.config().get('kibana.index'), 'config', req.payload.body, req.payload.id))
             //     .then(function (response) {
             //         reply(response);
             //     })
@@ -118,23 +142,26 @@ export default function (server) {
         }
     });
 
-    server.route({
-
-        path: '/api/setIndexPattern',
-        method: 'POST',
-        handler(req, reply) {
-            callWithRequest(req, 'index', getCreateRequest(server.config().get('kibana.index'), 'config', req.payload.body, req.payload.id))
-                .then(function (response) {
-                    reply(response);
-                })
-                .catch(err => {
-                    reply({create: false, reason: err.reason});
-                });
-
-        }
-    });
-
 };
+
+function getIndexPatternId(iReq) {
+    let deferred = Q.defer();
+
+    let urlHeader = iReq.headers.referer.split('app')[0] + 'api/saved_objects';
+    let urlMiddle = iReq.payload.title ? '&search="' + iReq.payload.title + '"&search_fields=title&' : '&';
+    let url = urlHeader + '?type=index-pattern' + urlMiddle + 'fields=title';
+    request.get(url, function (error, response, body) {
+        if (error) {
+            console.log(error);
+            deferred.resolve(error)
+        }
+        let res = JSON.parse(body);
+        deferred.resolve(res.saved_objects)
+
+    });
+    return deferred.promise;
+
+}
 
 function getBulkBody(visArr, iKibanaIndex) {
     let bodyArr = [];

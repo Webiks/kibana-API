@@ -45,8 +45,8 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
         let deferred = Q.defer();
 
         let request = {
-            "title": iIndex,
-            "notExpandable": true
+            "title": iIndex
+            // "notExpandable": true
         }
         if (iTimeField) {
             request["timeFieldName"] = iTimeField
@@ -63,9 +63,9 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
         let deferred = Q.defer();
 
         callServer("post", '../api/setIndexPattern', {
-            body: {"defaultIndex": iIndex},
-            id: kibanaVersion
-        }).then(function (response) {
+                title: iIndex
+            }
+        ).then(function (response) {
             deferred.resolve(response);
 
         });
@@ -78,9 +78,9 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
      * @param iTitle
      * @returns {*}
      */
-    function getIndexPatternId(iTitles) {
+    function getIndexPatternId() {
         let deferred = Q.defer();
-        callServer("post", '../api/getIndexPatternId', iTitles).then(function (response) {
+        callServer("post", '../api/getIndexPatternId', {}).then(function (response) {
             deferred.resolve(response.data);
         })
         return deferred.promise;
@@ -89,8 +89,8 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
 
     function isIndexPatternExist(iIndex) {
         let deferred = Q.defer();
-        callServer("post", '../api/getIndexPatternId', [iIndex]).then(function (response) {
-            deferred.resolve(response.data[0].hits.total > 0);
+        callServer("post", '../api/getIndexPatternId', {title: iIndex}).then(function (response) {
+            deferred.resolve(response.data.length > 0);
         })
 
         return deferred.promise;
@@ -122,9 +122,14 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
                     titelsArr.push(visState.visIndex);
                 });
 
-                getIndexPatternId(titelsArr).then(function (idsArr) {
+                getIndexPatternId().then(function (idsArr) {
                     _.forEach(e.data.visDefenetion, function (visState, i) {
-                        visState.visIndex = idsArr[i].hits.hits[0]._id;
+
+                        let indexPattern = _.find(idsArr, function (current) {
+                            return current.attributes.title == visState.visIndex
+                        });
+
+                        visState.visIndex = indexPattern.id;
                     });
 
 

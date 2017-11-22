@@ -147,7 +147,8 @@ export class KibanaApiService {
     static getKibanaDocumentStructure(iTitle, iVisState, iIndex) {
         let kibanaSavedObjectMeta = {
             searchSourceJSON: {
-                index: iIndex.split(':')[1],
+                // index: iIndex.split(':')[1],
+                index: iIndex,
                 query: {query_string: {query: "*", analyze_wildcard: true}},
                 filter: []
             }
