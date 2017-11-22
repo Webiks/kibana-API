@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import jsonfile from 'jsonfile';
 import packageJson from '../package.json';
+import request from 'request'
 import path from 'path'
 
 const kibanaVersion = packageJson.kibana.version;
@@ -84,13 +85,35 @@ export default function (server) {
         path: '/api/createIndexPattern',
         method: 'POST',
         handler(req, reply) {
-            callWithRequest(req, 'create', getCreateRequest(server.config().get('kibana.index'), 'index-pattern', req.payload, req.payload.title))
-                .then(function (response) {
-                    reply(response);
-                })
-                .catch(err => {
-                    reply({create: false, reason: err.reason});
-                });
+            console.log(req)
+            let options = {
+                headers: {'content-type': 'application/json'},
+                url: req,
+                form: {attributes: {timeFieldName: req.payload.timeFieldName, title: req.payload.title}}
+            };
+            // request.post(options, function (error, response, body) {
+            //         try {
+            //             if (error) {
+            //                 throw new Error(error);
+            //             }
+            //             else {
+            //
+            //                 res.json(JSON.parse(response.body))
+            //             }
+            //         } catch (e) {
+            //             res.json({error: e.message});
+            //
+            //         }
+            //     });
+
+
+            // callWithRequest(req, 'create', getCreateRequest(server.config().get('kibana.index'), 'index-pattern', req.payload, req.payload.title))
+            //     .then(function (response) {
+            //         reply(response);
+            //     })
+            //     .catch(err => {
+            //         reply({create: false, reason: err.reason});
+            //     });
 
         }
     });
