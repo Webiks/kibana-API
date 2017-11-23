@@ -131,14 +131,6 @@ export default function (server) {
                 });
             });
 
-            // callWithRequest(req, 'index', getCreateRequest(server.config().get('kibana.index'), 'config', req.payload.body, req.payload.id))
-            //     .then(function (response) {
-            //         reply(response);
-            //     })
-            //     .catch(err => {
-            //         reply({create: false, reason: err.reason});
-            //     });
-
         }
     });
 
