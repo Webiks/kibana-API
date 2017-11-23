@@ -112,7 +112,6 @@ export default function (server) {
         handler(req, reply) {
             getIndexPatternId(req).then((indexPattern) => {
                 let urlHeader = req.headers.referer.split('app')[0] + 'api/';
-                console.log(indexPattern[0])
                 let url = urlHeader + 'kibana/settings/defaultIndex';
                 let options = {
                     headers: {'content-type': 'application/json', 'kbn-version': getKibanVersion()},
