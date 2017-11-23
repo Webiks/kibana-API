@@ -44,6 +44,10 @@ export class KibanaApiService {
 
     }
 
+    static isKibanaSix() {
+        return kibanaVersion.split('-')[0] === "6.0.0"
+    }
+
 
     /**
      * Create visualization by well formed visualization json structure
@@ -55,12 +59,20 @@ export class KibanaApiService {
         try {
             let visStateArr = [];
             let that = this;
+            let visDoc = {};
+            let body = {};
             _.forEach(iVisArr, function (vis) {
                 if (vis) {
-                    visStateArr.push({
+                    body = that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex);
+                    visDoc = {
                         id: vis.id,
-                        state: that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex)
-                    });
+                        state: body
+                    }
+                    if (that.isKibanaSix()) {
+                        visDoc.state = {type: "visualization", visualization: body};
+                        visDoc.id = "visualization:" + visDoc.id;
+                    }
+                    visStateArr.push(visDoc);
                 }
 
             })
@@ -135,6 +147,7 @@ export class KibanaApiService {
     static getKibanaDocumentStructure(iTitle, iVisState, iIndex) {
         let kibanaSavedObjectMeta = {
             searchSourceJSON: {
+                // index: iIndex.split(':')[1],
                 index: iIndex,
                 query: {query_string: {query: "*", analyze_wildcard: true}},
                 filter: []
@@ -148,7 +161,6 @@ export class KibanaApiService {
             kibanaSavedObjectMeta: {"searchSourceJSON": JSON.stringify(kibanaSavedObjectMeta.searchSourceJSON)}
         };
     }
-
 
     /**
      * The final step before call elastic, return array of vis object
