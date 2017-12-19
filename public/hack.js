@@ -31,8 +31,8 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
      * refresh dashboard after the visualization create in kibana
      * @param iNewUrl
      */
-    function refreshDashboard(iNewVisArr) {
-        let newUrl = KibanaApiService.generateUrl($location.url(), iNewVisArr);
+    function refreshDashboard(iNewVisArr, iTime) {
+        let newUrl = KibanaApiService.generateUrl($location.url(), iNewVisArr, iTime);
         kbnUrl.change(newUrl);
     }
 
@@ -177,8 +177,11 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
                 isIndexPatternExist(e.data.indexPattern).then(function (res) {
                     postResToApp("isIndexPatternExist", res);
                 });
-                return
+                return;
 
+            case "setDashboardTime":
+                refreshDashboard([], e.data.time);
+                return;
         }
 
 

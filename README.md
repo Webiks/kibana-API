@@ -37,6 +37,10 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 [Index pattern functions](https://github.com/Webiks/kibana-API/wiki/Index-Pattern-functions)
 
+## Time Function
+
+[Time Function](https://github.com/Webiks/kibana-API/wiki/Time-function)
+
 ## Create Visualization's By an External Configuration File
 
 Create visualizations by uploading a json file with an array of the visualization's properties,
