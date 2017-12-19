@@ -222,9 +222,7 @@ export class KibanaApiService {
     }
 
     static setDashboardTime(iGlobalObject, iTime) {
-        iGlobalObject.from = iTime.from;
-        iGlobalObject.to = iTime.to;
-        iGlobalObject.mode = iTime.mode;
+        iGlobalObject.time = {from: iTime.from, to: iTime.to, mode: iTime.mode}
     }
 
     /**
