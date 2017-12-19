@@ -45,7 +45,7 @@ export class KibanaApiService {
     }
 
     static isKibanaSix() {
-        return kibanaVersion.split('-')[0] === "6.0.0"
+        return Number(kibanaVersion.split('-')[0].split('.')[0]) == 6
     }
 
 
