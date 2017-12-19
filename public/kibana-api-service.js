@@ -200,7 +200,7 @@ export class KibanaApiService {
      * @param iNewVisArr
      * @returns {string}
      */
-    static generateUrl(iUrl, iNewVisArr) {
+    static generateUrl(iUrl, iNewVisArr, iTime) {
         let kibanaAppObject = rison.decode(this.getQueryVariable("_a", iUrl));
         let kibanaGlobalObject = rison.decode(this.getQueryVariable("_g", iUrl));
         let header = "";
@@ -215,9 +215,16 @@ export class KibanaApiService {
         if (kibanaVersion.split('-')[0] === "5.3.0") {
             header = "/create";
         }
-
+        if (iTime) {
+            this.setDashboardTime(kibanaGlobalObject, iTime);
+        }
         return "/dashboard" + header + "?embed=true" + "&_g=" + rison.encode((kibanaGlobalObject)) + "&_a=" + rison.encode((kibanaAppObject));
+    }
 
+    static setDashboardTime(iGlobalObject, iTime) {
+        iGlobalObject.from = iTime.from;
+        iGlobalObject.to = iTime.to;
+        iGlobalObject.mode = iTime.mode;
     }
 
     /**
