@@ -1,10 +1,8 @@
-/**
- * Created by arbel on 13/12/2016.
- */
-
 import Sinon from "sinon";
 import {KibanaApiService} from "../kibana-api-service";
+
 import {expect} from 'chai';
+import packageJson from '../../package.json';
 
 
 describe('KibanaApiService', () => {
@@ -59,7 +57,6 @@ describe('KibanaApiService', () => {
             res = KibanaApiService.createVisByVisState([state]);
             expect(res.length).equal(1);
         });
-
 
 
     });
@@ -317,6 +314,27 @@ describe('KibanaApiService', () => {
         });
 
     });
+
+    // describe('isKibanaSix function', () => {
+    //     let res;
+    //     let kibanaVersionStub;
+    //     beforeEach(() => {
+    //         //kibanaVersionStub = Sinon.stub(packageJson).returns("5.5.3");
+    //        // kibanaVersion="5.5.3";
+    //         res = KibanaApiService["isKibanaSix"]();
+    //
+    //     });
+    //     afterEach(() => {
+    //        // kibanaVersionStub.restore();
+    //
+    //     });
+    //
+    //     it('should return the right well form vis state', () => {
+    //
+    //         expect(res).equal(true);
+    //     });
+    //
+    // });
 
 
 });
