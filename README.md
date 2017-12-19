@@ -57,7 +57,7 @@ cd kibana_home, then type the appropriate command:
 
 Kibana 6.0.0
 ```
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/6.0.0_0.3.0./kibana_api-0.3.0.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/6.0.0_0.3.0/kibana_api-0.3.0.zip
 ```
 
 Kibana 5.6.3
