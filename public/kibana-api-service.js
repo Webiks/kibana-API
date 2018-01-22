@@ -200,25 +200,43 @@ export class KibanaApiService {
      * @param iNewVisArr
      * @returns {string}
      */
-    static generateUrl(iUrl, iNewVisArr, iTime) {
-        let kibanaAppObject = rison.decode(this.getQueryVariable("_a", iUrl));
-        let kibanaGlobalObject = rison.decode(this.getQueryVariable("_g", iUrl));
-        let header = "";
+    static generateUrl(iKibanaApp, iKibanaGlobal, iNewVisArr) {
+        let kibanaObject = this.getPureKibanaObject(iKibanaGlobal, iKibanaApp);
+        let kibanaApp = kibanaObject.a;
+        let kibanaGlobal = kibanaObject.g;
         _.forEach(iNewVisArr, function (newVis) {
             if (newVis.prevoiusVisId) {
-                KibanaApiService.handleIfHasPreviousId(newVis, kibanaAppObject.panels,);
+                KibanaApiService.handleIfHasPreviousId(newVis, kibanaApp.panels,);
             }
             else {
-                kibanaAppObject.panels.push(KibanaApiService.getVisDashboardObject(newVis, kibanaAppObject.panels.length + 1));
+                kibanaApp.panels.push(KibanaApiService.getVisDashboardObject(newVis, kibanaApp.panels.length + 1));
             }
         })
-        if (kibanaVersion.split('-')[0] === "5.3.0") {
-            header = "/create";
-        }
-        if (iTime) {
-            this.setDashboardTime(kibanaGlobalObject, iTime);
-        }
-        return "/dashboard" + header + "?embed=true" + "&_g=" + rison.encode((kibanaGlobalObject)) + "&_a=" + rison.encode((kibanaAppObject));
+
+        return this.getUrlFromObject(iKibanaGlobal, kibanaApp);
+    }
+
+    static getUrlFromObject(iKibanaGlobalObject, iKibanaAppObject) {
+        let pureKibanaObject = this.getPureKibanaObject(iKibanaGlobalObject, iKibanaAppObject);
+        return "/dashboard" + "?embed=true" + "&_g=" + rison.encode((pureKibanaObject.g)) + "&_a=" + rison.encode((pureKibanaObject.a));
+
+    }
+
+     static  getPureKibanaObject(iKibanaGlobalObject, iKibanaAppObject) {
+        let a = _.pick(iKibanaAppObject, ['description', 'filters', 'fullScreenMode', 'options', 'panels', 'query', 'timeRestore', 'title', 'uiState', 'viewMode']);
+        let g = _.pick(iKibanaGlobalObject, ['time']);
+        return {a: a, g: g}
+    }
+
+    static getAppAndGlobal(iUrl) {
+        let kibanaAppObject = rison.decode(this.getQueryVariable("_a", iUrl));
+        let kibanaGlobalObject = rison.decode(this.getQueryVariable("_g", iUrl));
+        return {a: kibanaAppObject, g: kibanaGlobalObject}
+    }
+
+    static removeAllFilters(iUrl) {
+        let kibanaObject = this.getAppAndGlobal(iUrl);
+        kibanaObject.a.filters = [];
     }
 
     static setDashboardTime(iGlobalObject, iTime) {
@@ -251,8 +269,27 @@ export class KibanaApiService {
      */
     static getVisDashboardObject(iNewVis, iPanelIndex) {
         if (iNewVis && iNewVis.visDashboardDefenetion)
-            return iNewVis.visDashboardDefenetion
-        return {col: 1, id: iNewVis.id, panelIndex: iPanelIndex, row: 1, size_x: 3, size_y: 2, type: "visualization"}
+            return iNewVis.visDashboardDefenetion;
+        if (kibanaVersion.split('-')[0] === "6.0.0" || kibanaVersion.split('-')[0] === "6.0.1") {
+            return {
+                col: 1,
+                id: iNewVis.id,
+                panelIndex: iPanelIndex,
+                row: 1,
+                size_x: 3,
+                size_y: 2,
+                type: "visualization"
+            }
+        }
+        else {
+            return {
+                gridData: {h: 3, i: '1', w: 6, x: 0, y: 0},
+                id: iNewVis.id,
+                panelIndex: iPanelIndex,
+                type: "visualization",
+                version: kibanaVersion.split('-')[0]
+            }
+        }
     }
 
     /**
