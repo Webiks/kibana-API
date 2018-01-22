@@ -6,7 +6,7 @@ import {KibanaApiService} from "./kibana-api-service";
 import packageJson from '../package.json';
 
 let kibanaVersion = packageJson.kibana.version;
-uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, kbnUrl, getAppState) {
+uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $location, kbnUrl, getAppState, globalState) {
     let visStructure;
     let loaded = false;
     callServer('get', '../api/visStructure').then(function (response) {
@@ -31,9 +31,10 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
      * refresh dashboard after the visualization create in kibana
      * @param iNewUrl
      */
-    function refreshDashboard(iNewVisArr, iTime) {
-        let newUrl = KibanaApiService.generateUrl($location.url(), iNewVisArr, iTime);
+    function refreshDashboard(iNewVisArr) {
+        let newUrl = KibanaApiService.generateUrl(getAppState(), globalState, iNewVisArr);
         kbnUrl.change(newUrl);
+        $route.reload();
     }
 
     /**
@@ -157,6 +158,11 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
 
             case "flushSearchChip":
                 getAppState().filters = [];
+                //$location.url(KibanaApiService.getUrlFromObject(globalState, getAppState()));
+                // KibanaApiService.removeAllFilters($location.url());
+                getAppState().save();
+
+                //refreshDashboard();
                 return;
 
             case "createIndexPattern":
@@ -180,7 +186,12 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
                 return;
 
             case "setDashboardTime":
-                refreshDashboard([], e.data.time);
+
+                $rootScope.$$timefilter.time.from = e.data.time.from;
+                $rootScope.$$timefilter.time.to = e.data.time.to;
+                $rootScope.$$timefilter.time.mode = e.data.time.mode;
+                refreshDashboard([]);
+
                 return;
         }
 
@@ -192,10 +203,10 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $location, k
     $rootScope.$on('$routeChangeSuccess', () => {
         if (!loaded) {
             loaded = true;
-            setTimeout(function () {
-                console.log('$routeChangeSuccess');
-                postResToApp("load", "finish load iframe");
-            }, 1);
+            // setTimeout(function () {
+            //     console.log('$routeChangeSuccess');
+            //     postResToApp("load", "finish load iframe");
+            // }, 1);
 
         }
     })

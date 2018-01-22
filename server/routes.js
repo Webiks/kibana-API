@@ -175,7 +175,7 @@ function getBulkBody(visArr, iKibanaIndex) {
 }
 
 function isKibanaSix() {
-    return Number(getKibanVersion().split('.')[0]) == 6
+    return Number(getKibanVersion().split('.')[0]) == 6;
 }
 
 function getKibanVersion() {
