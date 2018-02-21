@@ -184,6 +184,16 @@ describe('KibanaApiService', () => {
             res = KibanaApiService["getKibanaDocumentStructure"]("title", {a: "abc"}, "myIndex");
             expect(res.visState).equal(JSON.stringify({a: "abc"}))
         });
+        it('Should return object with query equal to * by default', () => {
+            res = KibanaApiService["getKibanaDocumentStructure"]("title", {}, "myIndex");
+            var searchSourceJSON = JSON.parse(res.kibanaSavedObjectMeta.searchSourceJSON);
+            expect(searchSourceJSON.query.query_string.query).equal("*");
+        });
+        it('Should return object with query equal to "_type: a AND type: b"', () => {
+            res = KibanaApiService["getKibanaDocumentStructure"]("title", {}, "myIndex", "_type: a AND type: b");
+            var searchSourceJSON = JSON.parse(res.kibanaSavedObjectMeta.searchSourceJSON);
+            expect(searchSourceJSON.query.query_string.query).equal("_type: a AND type: b");
+        });
     });
 
     describe('getWellFormVisState function', () => {
