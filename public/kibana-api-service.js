@@ -138,7 +138,7 @@ export class KibanaApiService {
         let kibanaSavedObjectMeta = {
             searchSourceJSON: {
                 index: iIndex,
-                query: {query_string: {query: query || "*", analyze_wildcard: true}},
+                query: query || {match_all: {}},
                 filter: []
             }
         };
