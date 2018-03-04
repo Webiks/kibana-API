@@ -59,7 +59,7 @@ export class KibanaApiService {
                 if (vis) {
                     visStateArr.push({
                         id: vis.id,
-                        state: that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex)
+                        state: that.getKibanaDocumentStructure(vis.visState['title'], vis.visState, vis.visIndex, vis.query)
                     });
                 }
 
@@ -130,13 +130,15 @@ export class KibanaApiService {
      * @param iTitle
      * @param iVisState
      * @param iIndex
+     * @param query
      * @returns {{title: *, visState, uiStateJSON: string, description: string, kibanaSavedObjectMeta: {searchSourceJSON}}}
      */
-    static getKibanaDocumentStructure(iTitle, iVisState, iIndex) {
+    static getKibanaDocumentStructure(iTitle, iVisState, iIndex, query) {
+
         let kibanaSavedObjectMeta = {
             searchSourceJSON: {
                 index: iIndex,
-                query: {query_string: {query: "*", analyze_wildcard: true}},
+                query: query || {match_all: {}},
                 filter: []
             }
         };
