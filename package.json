@@ -4,7 +4,7 @@
   "description": "This plugin allow you to crete visualization dynamiclly",
   "main": "index.js",
   "kibana": {
-    "version": "5.6.0"
+    "version": "5.6.4"
   },
   "repository": {
     "type": "git",
