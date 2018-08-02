@@ -1,10 +1,10 @@
 {
   "name": "kibana_api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "This plugin allow you to crete visualization dynamiclly",
   "main": "index.js",
   "kibana": {
-    "version": "6.2.4"
+    "version": "6.3.0"
   },
   "repository": {
     "type": "git",

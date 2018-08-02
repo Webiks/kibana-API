@@ -140,7 +140,7 @@ function getIndexPatternId(iReq) {
 
     let urlHeader = iReq.headers.referer.split('app')[0] + 'api/saved_objects';
     let urlMiddle = iReq.payload.title ? '&search="' + iReq.payload.title + '"&search_fields=title&' : '&';
-    let url = urlHeader + '?type=index-pattern' + urlMiddle + 'fields=title';
+    let url = urlHeader + '/_find?type=index-pattern' + urlMiddle + 'fields=title';
     request.get(url, function (error, response, body) {
         if (error) {
             console.log(error);
