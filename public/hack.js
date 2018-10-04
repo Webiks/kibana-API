@@ -1,6 +1,5 @@
 //import {uiModules} from 'ui/modules';
 const uiModules = require('ui/modules');
-import {store} from 'C:/Users/ytzlax/Documents/elk/kibana/src/core_plugins/kibana/public/store'
 import Q from 'q';
 import {KibanaApiService} from "./kibana-api-service";
 import packageJson from '../package.json';
