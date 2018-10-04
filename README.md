@@ -57,17 +57,17 @@ cd kibana_home, then type the appropriate command:
 
 Kibana 6.4.2
 ```
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/6.4.2_0.5.0/kibana_api-0.5.0.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/v6.4.2_0.5.0/kibana_api-0.5.0.zip
 ```
 
 Kibana 6.4.1
 ```
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/6.4.1_0.5.0/kibana_api-0.5.0.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/v6.4.1_0.5.0/kibana_api-0.5.0.zip
 ```
 
 Kibana 6.4.0
 ```
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/6.4.0_0.5.0/kibana_api-0.5.0.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/v6.4.0_0.5.0/kibana_api-0.5.0.zip
 ```
 
 Kibana 6.3.2
