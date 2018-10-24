@@ -1,4 +1,4 @@
-# kibana-API 0.5.0(kibana 6.3.X and above)
+# kibana-API 0.6.0(kibana 6.4.2 and above)
 Kibana-API is an extension to Kibana that lets you tap in to the dashboard management board from your app and change the visualizations dynamically.</br></br> I recommend you read all, step by step, but if you don't have patience go to [How To Use](https://github.com/Webiks/kibana-API/blob/master/README.md#how-to-use)
 
 
@@ -41,23 +41,12 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 [Time Function](https://github.com/Webiks/kibana-API/wiki/Time-function)
 
-## Create Visualization's By an External Configuration File
-
-Create visualizations by uploading a json file with an array of the visualization's properties,
-
-[Json File Example](https://github.com/Webiks/kibana-API/blob/master/example_vis_defenetion.json)    
-
-![alt text](https://github.com/Webiks/kibana-API/blob/master/demo_file.gif)
-
-
-
-
 # Install
 cd kibana_home, then type the appropriate command:
 
 Kibana 6.4.2
 ```
-./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/v6.4.2_0.5.0/kibana_api-0.5.0.zip
+./bin/kibana-plugin install https://github.com/Webiks/kibana-API/releases/download/v6.4.2_0.6.0/kibana_api-0.6.0.zip
 ```
 
 Kibana 6.4.1

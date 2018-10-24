@@ -6,7 +6,7 @@ import packageJson from '../package.json';
 import { timefilter } from 'ui/timefilter';
 
 let kibanaVersion = packageJson.kibana.version;
-uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $location, kbnUrl, getAppState, globalState) {
+uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $location, kbnUrl, getAppState,globalState) {
     let visStructure;
     let loaded = false;
     callServer('get', '../api/visStructure').then(function (response) {
@@ -188,6 +188,10 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $loc
             case "setDashboardTime":     
                 timefilter.setTime({ from:e.data.time.from, to:e.data.time.to, mode :e.data.time.mode});
                 return;
+            case "setRefreshInterval":     
+                timefilter.setRefreshInterval({ pause:e.data.refresh.pause, value:e.data.refresh.value});
+                return;
+                
         }
 
 
