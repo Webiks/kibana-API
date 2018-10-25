@@ -37,7 +37,7 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 [Index pattern functions](https://github.com/Webiks/kibana-API/wiki/Index-Pattern-functions)
 
-## Time Function
+## Time Functions
 
 [Time Function](https://github.com/Webiks/kibana-API/wiki/Time-function-(in-kibana-6.x-only))
 
