@@ -39,7 +39,7 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 
 ## Time Functions
 
-[Time Function](https://github.com/Webiks/kibana-API/wiki/Time-function-(in-kibana-6.x-only))
+[Time Functions](https://github.com/Webiks/kibana-API/wiki/Time-function-(in-kibana-6.x-only))
 
 
 # Install
