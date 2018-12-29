@@ -1,14 +1,17 @@
-//import {uiModules} from 'ui/modules';
-const uiModules = require('ui/modules');
+
+import {uiModules} from 'ui/modules';
 import Q from 'q';
 import {KibanaApiService} from "./kibana-api-service";
 import packageJson from '../package.json';
 import { timefilter } from 'ui/timefilter';
-
+import { DashboardStateManager } from 'plugins/kibana/dashboard/dashboard_state_manager';
+import { store } from 'plugins/kibana/store';
+import {    updateFilters } from 'plugins/kibana/dashboard/actions/view';
 let kibanaVersion = packageJson.kibana.version;
-uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $location, kbnUrl, getAppState,globalState) {
+uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUrl, getAppState,globalState,AppState) {
     let visStructure;
     let loaded = false;
+   // let state=
     callServer('get', '../api/visStructure').then(function (response) {
         visStructure = response.data;
     });
@@ -31,10 +34,15 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $loc
      * refresh dashboard after the visualization create in kibana
      * @param iNewUrl
      */
-    function refreshDashboard(iNewVisArr) {
-        let newUrl = KibanaApiService.generateUrl(getAppState(), globalState, iNewVisArr);
-        kbnUrl.change(newUrl);
-        $route.reload();
+    function refreshDashboard(iNewVisArr) {        
+        let appState= new AppState();
+        iNewVisArr.forEach((vis)=>{
+            appState.panels.push(vis.visDashboardDefenetion);
+        })
+        //appState.filters.push(KibanaApiService.handleTextFilter('ytz', 'cdd12730-f272-11e8-9650-3b89f6bad463'));
+
+        appState.save();
+        $rootScope.$apply();       
     }
 
     /**
@@ -112,6 +120,7 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $loc
 
 
     let eventMessageHandler = function (e) {
+        let appState= new AppState();
 
 
         switch (e.data.actionType) {
@@ -152,17 +161,19 @@ uiModules.get('app/dashboard', []).run(function ($rootScope, $http, $route, $loc
                 return;
 
             case "addSearchChip":
-                getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
-                getAppState().save();
+               const dashboardFilters= getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
+                //getAppState().save();
+
+
+                store.dispatch(updateFilters(dashboardFilters));
+
+
                 return;
 
             case "flushSearchChip":
-                getAppState().filters = [];
-                //$location.url(KibanaApiService.getUrlFromObject(globalState, getAppState()));
-                // KibanaApiService.removeAllFilters($location.url());
-                getAppState().save();
-
-                //refreshDashboard();
+               // getAppState().filters = [];
+                appState.filters=[]
+                appState.save();
                 return;
 
             case "createIndexPattern":
