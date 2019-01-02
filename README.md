@@ -42,13 +42,8 @@ In case you do not wish to define all the visualization's properties (`isFullSta
 [Time Functions](https://github.com/Webiks/kibana-API/wiki/Time-function-(in-kibana-6.x-only))
 
 
-## Installs
-[Installs](https://github.com/Webiks/kibana-API/wiki/Installs)
-
-#### when the installation complete restart kibana.
-
 # How to Use
-1) Install the plugin, look at https://github.com/Webiks/kibana-API#install 
+1) Install the plugin, look at https://github.com/Webiks/kibana-API/wiki/Installs
 2) Restart Kibana
 3) Index data to elasticsearch (if you have not done so before)
 4) Navigate to localhost:5601 and:</br>a) Create kibana index-pattern (you can also do that with [create index pattern function](https://github.com/Webiks/kibana-API/wiki/Index-Pattern-functions)</br>b) Create dashboard</br>c) Press on the share button and copy the Embedded iframe URL to your HTML application  (don't use the save dashboard link)</br>
