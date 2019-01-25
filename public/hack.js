@@ -11,7 +11,6 @@ let kibanaVersion = packageJson.kibana.version;
 uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUrl, getAppState,globalState,AppState) {
     let visStructure;
     let loaded = false;
-   // let state=
     callServer('get', '../api/visStructure').then(function (response) {
         visStructure = response.data;
     });
@@ -39,8 +38,6 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
         iNewVisArr.forEach((vis)=>{
             appState.panels.push(vis.visDashboardDefenetion);
         })
-        //appState.filters.push(KibanaApiService.handleTextFilter('ytz', 'cdd12730-f272-11e8-9650-3b89f6bad463'));
-
         appState.save();
         $rootScope.$apply();       
     }
@@ -55,7 +52,6 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
 
         let request = {
             "title": iIndex
-            // "notExpandable": true
         }
         if (iTimeField) {
             request["timeFieldName"] = iTimeField
@@ -83,16 +79,38 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
     }
 
     /**
-     * Get index pattern ID by title
-     * @param iTitle
+     * Get index pattern ID 
      * @returns {*}
      */
-    function getIndexPatternId() {
+    function getAllIndexPatternId() {
         let deferred = Q.defer();
         callServer("post", '../api/getIndexPatternId', {}).then(function (response) {
             deferred.resolve(response.data);
         })
         return deferred.promise;
+
+    }
+    /**
+     * Get index pattern ID by title
+     * @param title
+     * @returns {*}
+     */
+    function getIndexPatternIdByTitle(title) {
+        let deferred = Q.defer();
+
+        getAllIndexPatternId().then(function (idsArr) {
+            _.forEach(idsArr, function (visState, i) {
+
+                let indexPattern = _.find(idsArr, function (current) {
+                    return current.attributes.title == title
+                });
+
+                deferred.resolve( indexPattern.id);
+               
+            });
+
+         });
+         return deferred.promise;
 
     }
 
@@ -132,7 +150,7 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
                     titelsArr.push(visState.visIndex);
                 });
 
-                getIndexPatternId().then(function (idsArr) {
+                getAllIndexPatternId().then(function (idsArr) {
                     _.forEach(e.data.visDefenetion, function (visState, i) {
 
                         let indexPattern = _.find(idsArr, function (current) {
@@ -161,17 +179,14 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
                 return;
 
             case "addSearchChip":
-               const dashboardFilters= getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text, e.data.index));
-                //getAppState().save();
 
-
+            getIndexPatternIdByTitle(e.data.index).then((indexId)=> {
+               const dashboardFilters= getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text,indexId));
                 store.dispatch(updateFilters(dashboardFilters));
-
-
                 return;
+            });
 
             case "flushSearchChip":
-               // getAppState().filters = [];
                 appState.filters=[]
                 appState.save();
                 return;
