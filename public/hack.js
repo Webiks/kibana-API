@@ -6,11 +6,14 @@ import packageJson from '../package.json';
 import { timefilter } from 'ui/timefilter';
 import { DashboardStateManager } from 'plugins/kibana/dashboard/dashboard_state_manager';
 import { store } from 'plugins/kibana/store';
-import {    updateFilters } from 'plugins/kibana/dashboard/actions/view';
+import { updateFilters } from 'plugins/kibana/dashboard/actions/view';
+
 let kibanaVersion = packageJson.kibana.version;
+
 uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUrl, getAppState,globalState,AppState) {
     let visStructure;
     let loaded = false;
+
     callServer('get', '../api/visStructure').then(function (response) {
         visStructure = response.data;
     });
@@ -138,9 +141,6 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
 
 
     let eventMessageHandler = function (e) {
-        let appState= new AppState();
-
-
         switch (e.data.actionType) {
             case "setVisualization":
                 let partialVisArr = [], fullVisArr = [], titelsArr = [];
@@ -176,19 +176,24 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
                     }
 
                 })
+                
                 return;
 
             case "addSearchChip":
 
-            getIndexPatternIdByTitle(e.data.index).then((indexId)=> {
-               const dashboardFilters= getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text,indexId));
-                store.dispatch(updateFilters(dashboardFilters));
+                getIndexPatternIdByTitle(e.data.index).then((indexId)=> {
+                const dashboardFilters= getAppState().filters.push(KibanaApiService.handleTextFilter(e.data.text,indexId));
+                    store.dispatch(updateFilters(getAppState().filters));
+                });
+               
                 return;
-            });
 
             case "flushSearchChip":
-                appState.filters=[]
-                appState.save();
+
+                const appState = getAppState();
+                appState.filters = [];
+                store.dispatch(updateFilters(appState.filters));
+
                 return;
 
             case "createIndexPattern":
@@ -209,13 +214,19 @@ uiModules.get('app/dashboard').run(function ($rootScope, $http, $location, kbnUr
                 isIndexPatternExist(e.data.indexPattern).then(function (res) {
                     postResToApp("isIndexPatternExist", res);
                 });
+                
                 return;
 
-            case "setDashboardTime":     
+            case "setDashboardTime": 
+
                 timefilter.setTime({ from:e.data.time.from, to:e.data.time.to, mode :e.data.time.mode});
+                
                 return;
-            case "setRefreshInterval":     
+
+            case "setRefreshInterval":   
+
                 timefilter.setRefreshInterval({ pause:e.data.refresh.pause, value:e.data.refresh.value});
+                
                 return;
                 
         }
