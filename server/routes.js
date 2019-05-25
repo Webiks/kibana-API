@@ -25,16 +25,19 @@ export default function (server) {
 
         path: '/api/visStructure',
         method: 'GET',
-        handler(req, reply) {
+        handler(req, h) {
 
             var file = __dirname + '/visStruct.json';
-            jsonfile.readFile(file, function (err, obj) {
-                if (err)
-                    console.dir(err)
-                reply(obj);
+
+            return new Promise((resolve, reject) => {
+                jsonfile.readFile(file, (err, obj) => {
+                    if(err)
+                        reject(err);
+                    else
+                        resolve(obj);
+                });
 
             })
-
         }
     });
 
@@ -43,10 +46,8 @@ export default function (server) {
 
         path: '/api/getIndexPatternId',
         method: 'POST',
-        handler(req, reply) {
-            getIndexPatternId(req).then((indexPattern) => {
-                reply(indexPattern);
-            });
+        handler(req, h) {
+            return getIndexPatternId(req);
         }
     });
 
@@ -55,15 +56,9 @@ export default function (server) {
 
         path: '/api/createVis/createVisByVisState',
         method: 'POST',
-        handler(req, reply) {
+        handler(req, h) {
 
-            callWithRequest(req, 'bulk', {body: getBulkBody(req.payload, server.config().get('kibana.index'))}).then(function (response) {
-                    reply(response);
-                },
-                function (error) {
-                    reply(error);
-                }
-            );
+            return callWithRequest(req, 'bulk', {body: getBulkBody(req.payload, server.config().get('kibana.index'))});
 
         }
     });
@@ -72,36 +67,37 @@ export default function (server) {
 
         path: '/api/createIndexPattern',
         method: 'POST',
-        handler(req, reply) {
-            getIndexPatternId(req).then((indexPattern) => {
+        handler(req, h) {
+            return getIndexPatternId(req)
+            .then((indexPattern) => {
                 if (indexPattern.length == 0) {
                     let options = {
                         headers: {'content-type': 'application/json', 'kbn-version': getKibanVersion()},
                         url: req.headers.referer.split('app')[0] + 'api/saved_objects/index-pattern',
                         json: {attributes: {timeFieldName: req.payload.timeFieldName, title: req.payload.title}}
                     };
-                    request.post(options, function (error, response, body) {
-                        try {
-                            if (error) {
-                                console.log(error);
-                                reply(error);
+                    return new Promise((resolve, reject) => {
+                        request.post(options, function (error, response, body) {
+                            try {
+                                if (error) {
+                                    console.log(error);
+                                    reject(error);
+                                }
+                                else {
+                                    resolve(body);
+                                }
+                            } catch (e) {
+                                console.log(e);
+                                return reject(e);
+    
                             }
-                            else {
-                                reply(body);
-                            }
-                        } catch (e) {
-                            console.log(e);
-                            reply(e);
-
-                        }
+                        });
                     });
                 }
                 else {
-                    reply({});
+                    return Promise.resolve({});
                 }
             })
-
-
         }
     });
 
@@ -109,8 +105,8 @@ export default function (server) {
 
         path: '/api/setIndexPattern',
         method: 'POST',
-        handler(req, reply) {
-            getIndexPatternId(req).then((indexPattern) => {
+        handler(req, h) {
+            return getIndexPatternId(req).then((indexPattern) => {
                 let urlHeader = req.headers.referer.split('app')[0] + 'api/';
                 let url = urlHeader + 'kibana/settings/defaultIndex';
                 let options = {
@@ -118,15 +114,17 @@ export default function (server) {
                     url: url,
                     json: {value: indexPattern[0].id}
                 };
-                request.post(options, function (error, response, body) {
-                    if (error) {
-                        console.log(error);
-                        reply(error);
-                    }
-                    console.log(body);
-
-                    reply(body);
-
+                return new Promise((resolve, reject) => {
+                    request.post(options, function (error, response, body) {
+                        if (error) {
+                            console.log(error);
+                            reject(error);
+                        }
+                        console.log(body);
+    
+                        resolve(body);
+    
+                    });
                 });
             });
 
