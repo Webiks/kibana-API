@@ -34,7 +34,7 @@
     "chai": "^4.2.0",
     "eslint": "^6.2.2",
     "eslint-plugin-mocha": "^6.1.0",
-    "mocha": "^6.2.0",
+    "mocha": "^10.2.0",
     "sinon": "^7.4.1"
   },
   "dependencies": {
